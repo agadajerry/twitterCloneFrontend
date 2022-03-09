@@ -120,7 +120,7 @@ function Trending_Follow() {
                     {item.firstName.charAt(0).toUpperCase() + item.lastName.charAt(0).toUpperCase()}
                   </div>}
                     <h3>{`${item.firstName} ${item.lastName}`}</h3>
-                    <button onClick={() => handleFollow(item._id)}>
+                    <button onClick={() => handleFollow(item._id)} className={styles["follow-btn"]}>
                       <span></span>follow
                     </button>
                   </div>
