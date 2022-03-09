@@ -105,7 +105,6 @@ const Navbar = () => {
             <div className={classes.divider}> &nbsp; </div>
             <span className={classes.navItem}>
               <MdLogout className={classes.icon} />
-
               <span className={classes.navText} onClick={logOut}>
                 Log Out
               </span>

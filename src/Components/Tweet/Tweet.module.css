@@ -243,16 +243,3 @@
     /* font-size: 11px; */
   }
 }
-
-Link .image-replacer{
-  width:100%;
-  height: 100%;
-  border-radius: 50%;
-  border:2px solid green;
-  text-decoration: none;
-  
-}
-Link .image-replacer h3{
-  
-  font-size: 1px;
-}

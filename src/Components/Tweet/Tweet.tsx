@@ -334,7 +334,20 @@ const Tweet: React.FC<iTweet> = ({
               <Link to="/profile">
 
               {!user.user.profilePic  || user.user.profilePic=="null"?  
-              <div className="image-replacer"><h6>{user.user.firstName[0].toUpperCase()+"."+user.user.lastName[0].toUpperCase()}</h6></div> :
+              <div className="image-replacer" 
+              style={{
+                background: "#2F80ED",
+                width: "43px",
+                height: "43px",
+                borderRadius: "20px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#fff",
+                marginTop: "5px",
+                fontWeight: "bold"
+              }}>
+            {user.user.firstName[0].toUpperCase()+""+user.user.lastName[0].toUpperCase()}</div> :
                 <img
                 src={user.user.profilePic}
                   onError={imageErrorHandler}
