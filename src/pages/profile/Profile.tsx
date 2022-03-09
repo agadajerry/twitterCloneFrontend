@@ -74,7 +74,6 @@ const Profile = () => {
         followingCount={profile?.following.Totalfollowing}
         isFetching={isFetchingProfile}
       />
-      
       {/* <br /> */}
       <div className="container">
         <div className="row">
@@ -83,13 +82,22 @@ const Profile = () => {
             
           </div>
           <div className="col-sm-9">
-          {tweets && tweets.map((tweet: any, index: any) => (
+          {tweets.length>0 && tweets.map((val:any,i:any)=>(
+        <div>
+          {/* <p>{val['item']['messageBody']}{val['item']['_id']}</p>  */}
+          <Tweet messageBody={val['item']['messageBody']} createdAt={val['item']['createdAt']}/>
+        </div>
+      ))
+      }
+
+          
+          {/* {tweets && tweets.map((tweet: any, index: any) => (
             <div key={index}>
               <Routes>
-                <Route path="tweet" element={<Tweet />} />
+                <Route path="/profile/*" element={<Tweet messageBody={tweet["item"]["messageBody"]}/>} />
               </Routes>
             </div>
-          ))}
+          ))} */}
           </div>
         </div>
       </div>
