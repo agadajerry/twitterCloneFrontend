@@ -143,7 +143,7 @@ function CreateTweet() {
             <div className={styles.underline}></div>
             <div className={styles["write-message"]}>
               <img
-                src="https://www.findjerry.tech/static/media/jerry2.a509e534aa3f11de93e1.png"
+                src="https://res.cloudinary.com/ckgraphics/image/upload/v1644925390/tweeterclone/undraw_profile_pic_ic5t_rkejzu_lqnnhr.png"
                 className={styles["user-image"]}
                 alt="user"
               />

@@ -16,12 +16,13 @@ const Social = (): JSX.Element => {
   useEffect(() => {
     const profile = async () => {
       try {
-        const res = await axios(`/profile`, {
+        const res = await axios(`https://tweetaclone.herokuapp.com/profile`, {
           headers: {
             Authorization: "Bearer " + token, //the token is a variable which holds the token
           },
         });
         const user = res.data.user;
+        console.log(user)
         userDetails = storeUser({ user, token });
 
         window.location.href = "/";
