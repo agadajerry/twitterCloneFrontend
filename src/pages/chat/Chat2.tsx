@@ -53,6 +53,74 @@ const Chat2 = () => {
   const messageEndRef = useRef<null | HTMLDivElement>(null);
   const [showEmojis, setShowEmojis] = useState(false);
   const [socket, setSocket] = useState<any | null>(null);
+  const [isFetchingSearch, setIsFetchingSearch] = useState(false);
+  const [search, setSearch] = useState("");
+  const [searchResult, setSearchResult] = useState<any | null>(null);
+
+  const handleChange = (e: any) => {
+    setSearch(e.target.value);
+  };
+
+  const handleSearchSubmit = async (e: any) => {
+    try {
+      setIsFetchingSearch(true);
+      e.preventDefault();
+      const { data } = await axios.get(
+        `${BASE_URL}api/v1/search/users?search=${search}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      const val = data.data.users;
+      const datas = val.filter((item: any) => item._id !== user.user._id);
+      console.log({ datas });
+      setSearchResult(datas);
+      setIsFetchingSearch(false);
+      setSearch("");
+    } catch (e) {
+      console.log(e);
+      setIsFetchingSearch(false);
+    }
+  };
+
+  const handleOutsideClick = () => {
+    setSearchResult(null);
+  };
+
+  const handleSearchItemClick = async (receiver: any) => {
+    // console.log(receiver, '**');
+
+    try {
+      const { data } = await axios.post(
+        `${BASE_URL}conversation`,
+        {
+          receiverId: receiver._id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      const val = {} as Conversation
+      val.conversationId = data.data.id
+      val.firstName= receiver.firstName
+      val.lastName= receiver.lastName
+      val.email= receiver.email
+      val.bioData=receiver.bioData
+      val.profilePic=receiver.profilePic
+      val.userId= receiver._id
+      
+      
+      setConversation([...conversation, val])
+      
+      console.log(val, '***')
+    } catch (el) {
+      console.log(el);
+    }
+  };
 
   useEffect(() => {
     sockets.emit("addUser", user.user._id);
@@ -61,7 +129,6 @@ const Chat2 = () => {
 
   useEffect(() => {
     sockets.on("getMessage", ({ message }) => {
-      // console.log(message, "New message");
       const val = {} as IMessage;
       val.senderId = message.senderId;
       val.text = message.text;
@@ -202,7 +269,7 @@ const Chat2 = () => {
     const fetchMessage = async () => {
       try {
         setIsFetchingMessage(true);
-        // setCurrentMessage([]);
+        setCurrentMessage(null);
         const val = await axios.get(
           `${BASE_URL}message/${currentConversationId}`,
           {
@@ -259,50 +326,58 @@ const Chat2 = () => {
   //   }
   // });
 
-  // const handlePostMessage = async(e:any) => {
-  //   e.preventDefault();
-  //   const messages= {
-  //     senderId : user.user._id,
-  //     text:message,
-  //     conversationId: currentConversationId,
 
-  //   }
-
-  //   try{
-  //     setPostMessage(true)
-  //     const {data} = await axios.post(`${BASE_URL}message`, messages,
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${user.token}`,
-  //       },
-  //   })
-  //   console.log(data)
-
-  //   setMessage([messages, ...data])
-  //   setPostMessage(false)
-  // }
-  //   catch(e){
-  //     console.log(e)
-  //     setPostMessage(false)
-  //   }
-  // }
 
   return (
     <div className={classes.container}>
       <div className={classes.nav_top}>
         <Navbar />
       </div>
-      <div className={classes.main}>
+      <div className={classes.main} onClick={handleOutsideClick}>
         <div className={classes.nav_left}>
           <div className={classes.search}>
-            <form action="" className={classes.form}>
+            <form
+              action=""
+              className={classes.form}
+              onSubmit={handleSearchSubmit}
+            >
               <input
                 type="text"
                 placeholder="search"
                 className={classes.text}
+                onChange={handleChange}
+                value={search}
               />
+              {isFetchingSearch === true ? (
+                <Circles
+                  color="#2F80ED"
+                  height={20}
+                  width={20}
+                  wrapperStyle={{
+                    position: "absolute",
+                    top: "15px",
+                    left: "250px",
+                  }}
+                />
+              ) : (
+                ""
+              )}
               <BiSearchAlt2 className={classes.icon} />
             </form>
+            {searchResult && (
+              <div className={classes.searchDrop}>
+                {searchResult.map((item: any) => (
+                  <div
+                    className={classes.searchItem}
+                    onClick={() => handleSearchItemClick(item)}
+                  >
+                    <span className={classes.name}>
+                      {item.firstName + " " + item.lastName}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/*  {!user.user.profilePic ?
@@ -421,7 +496,7 @@ const Chat2 = () => {
             </div>
           </div>
 
-          <div id="scrolll" className={classes.chat_body} ref={messageEndRef}>
+          <div id="scroll" className={classes.chat_body} ref={messageEndRef}>
             {isFetchingMessage && (
               <Circles
                 color="rgb(71, 144, 240)"
