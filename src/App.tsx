@@ -57,7 +57,7 @@ function App() {
             <Route path="/setting" element={<Settings />} />
             <Route path="/following" element={<Following />} />
             <Route path="/changePassword" element={<ChangePassword />} />
-            <Route path="/usertweets/:id" element={<SingleTweet />} />
+            <Route path="/tweetcomment/:id" element={<SingleTweet />} />
             <Route
               path="/"
               element={

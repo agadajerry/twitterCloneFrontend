@@ -39,13 +39,13 @@ const Tweet = (props:any) => {
           />: null}
           <div className="row">
             <div className="col-7"></div>
-            <div className="col-5">
+            {/* <div className="col-5">
               <div className="row">
                 <div className="col-sm-4 tweet-under">449 Comments</div>
                 <div className="col-sm-4 tweet-under">59k Retweets</div>
                 <div className="col-sm-4 tweet-under">234 Saved</div>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="row text-center">
             <div className="col-sm-3">
