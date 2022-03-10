@@ -15,7 +15,7 @@
 }
 
 .main {
-  /* background-color: brown; */
+  /* background-color: #ffffff; */
   min-height: 100vh;
   padding-top: 70px;
   display: flex;
@@ -57,6 +57,49 @@
   left: 10px;
   top: 20px;
   font-size: 15px;
+}
+
+.searchDrop {
+  position: absolute;
+  /* display: none; */
+  background-color:white;
+  width: 280px;
+  top: 65px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+  /* right: 90px; */
+  left: 32px;
+  z-index: 800;
+  /* top: 80px; */
+  opacity: 2;
+  max-height: 200px;
+  overflow-y: scroll;
+
+}
+.searchDrop .searchItem{
+  display: flex;
+  /* color: green; */
+  align-items: center;
+  border-radius: 10px;
+  padding: 8px 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.searchItem:hover{
+  background-color: #f2f2f2;
+  /* width: 100%; */
+}
+
+.searchItem .name{
+  color: #333333;
+  font-family: "Noto Sans", sans-serif; 
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  /* margin: 0 !important; */
+  /* margin-top: -10px; */
 }
 
 .nav_left .friends {
@@ -103,6 +146,7 @@
   font-weight: 600;
   font-size: 14px;
   padding-top: 12px;
+  text-transform: uppercase;
   /* padding: 4px 2px 4px 2px; */
 }
 
@@ -192,6 +236,7 @@
   font-weight: 600;
   font-size: 14px;
   padding: 4px 2px 4px 2px;
+  text-transform: uppercase;
 }
 
 .person .profile_name {
@@ -217,7 +262,7 @@
 }
 
 .nav_right .chat_head {
-  /* background-color: #ede6e6; */
+  /* background-color: red !; */
   width: 100%;
   height: 80px;
   position: fixed;
@@ -268,6 +313,7 @@
   font-weight: 600;
   font-size: 14px;
   padding-top: 12px;
+  text-transform: uppercase;
   /* padding: 4px 2px 4px 2px; */
 }
 
@@ -313,7 +359,7 @@
   margin: 50px auto;
   background: #fafafa;
   padding: 20px 20px 35px 20px;
-  text-align: center;
+  /* text-align: center; */
   position: relative;
   border-radius: 12px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -355,8 +401,6 @@
   width: 50%;
   margin-left: 40%;
   border-radius: 12px;
-  
-
 }
 
 .chat_boxB .chat_caseB {
@@ -364,7 +408,7 @@
   margin: 50px auto;
   background: #2F80ED;;
   padding: 20px 20px 35px 20px;
-  text-align: center;
+  /* text-align: center; */
   position: relative;
   border-radius: 12px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -474,8 +518,7 @@
   font-style: normal;
   font-weight: 600;
   font-size: 50px;
-  color: #e2e2e2;
-  
+  color: #e2e2e2;  
 }
 
 .chat_background .chat_shadowicon{

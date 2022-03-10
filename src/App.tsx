@@ -4,13 +4,14 @@ import BookMarksPage from "././Components/BookMarksPage";
 import ExplorePage from "./Components/ExplorePage";
 import TrendingDesktopPage from "./Components/TrendingDesktopPage";
 import TrendingMobilePage from "./Components/TrendingMobilePage";
-import Chat from "./pages/chat/Chat";
+// import Chat from "./pages/chat/Chat";
 import Chat2 from "./pages/chat/Chat2"
 import AuthProvider from "./context/Auth.context";
 
 import TrendsController from "./Components/TrendsController";
 import Login from "./pages/authentication/Login/Login";
 import Signup from "./pages/authentication/Signup/Signup";
+import Follower from "./Components/Follower/follower";
 import Following from "./Components/Following/following";
 import ChangePassword from "./Components/changePassword/changePassword";
 
@@ -19,6 +20,7 @@ import Tweet from "./Components/Tweet/Tweet";
 import FollowingProvider from "./Components/FollowingProvider";
 import Profile from "./pages/profile/Profile";
 import Settings from "./pages/settings";
+import Social from "./pages/authentication/Login/Social";
 
 import { UserContext } from "./hooks/useContext";
 import {
@@ -28,6 +30,7 @@ import {
 } from "./hooks/useLogin";
 import TweetContent from "./Components/TweetContent";
 import Forgotpassword from "./pages/authentication/resetpassword/Forgotpassword";
+import SingleTweet from "./pages/profile/SingleTweet";
 function App() {
   isLoggedIn();
   let USERDATA = getUserData();
@@ -39,6 +42,7 @@ function App() {
             {/* <Route path="/" element={<Profile />} /> */}
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/social/:user" element={<Social />} />
             <Route path="/profile/:id" element={<Profile />} />
             <Route path="/forgot-password" element={<Forgotpassword />} />
 
@@ -53,8 +57,10 @@ function App() {
               element={<TrendingDesktopPage />}
             />
             <Route path="/setting" element={<Settings />} />
+            <Route path="/follower" element={<Follower />} />
             <Route path="/following" element={<Following />} />
             <Route path="/changePassword" element={<ChangePassword />} />
+            <Route path="/usertweets/:id" element={<SingleTweet />} />
             <Route
               path="/"
               element={

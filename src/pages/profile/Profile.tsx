@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useParams } from "react-router-dom";
+import { Routes, Route, useParams, Link } from "react-router-dom";
 
 import ProfileHeader from "../../Components/profile/ProfileHeader";
 import "./Profile.css";
@@ -83,10 +83,16 @@ const Profile = () => {
           </div>
           <div className="col-sm-9">
           {tweets.length>0 && tweets.map((val:any,i:any)=>(
-        <div>
-          {/* <p>{val['item']['messageBody']}{val['item']['_id']}</p>  */}
-          <Tweet messageBody={val['item']['messageBody']} createdAt={val['item']['createdAt']}/>
-        </div>
+          <div>
+            <Link 
+              to="/profile/*"
+              style={{
+                textDecoration: "none",
+                color: "#000"
+              }}>
+              <Tweet messageBody={val['item']['messageBody']} createdAt={val['item']['createdAt']}/>
+            </Link>
+          </div>
       ))
       }
 
