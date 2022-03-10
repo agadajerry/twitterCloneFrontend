@@ -100,7 +100,7 @@ const Tweet: React.FC<iTweet> = ({
           .catch((err: any) => console.log(err));
         setIsLoading(false);
       }
-    } catch (err: any) {
+    } catch (err) {
       return console.error(err);
     }
   };
@@ -228,7 +228,7 @@ const Tweet: React.FC<iTweet> = ({
           },
         });
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
     }
   }

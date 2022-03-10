@@ -11,6 +11,7 @@ import AuthProvider from "./context/Auth.context";
 import TrendsController from "./Components/TrendsController";
 import Login from "./pages/authentication/Login/Login";
 import Signup from "./pages/authentication/Signup/Signup";
+import Follower from "./Components/Follower/follower";
 import Following from "./Components/Following/following";
 import ChangePassword from "./Components/changePassword/changePassword";
 
@@ -19,11 +20,11 @@ import Tweet from "./Components/Tweet/Tweet";
 import FollowingProvider from "./Components/FollowingProvider";
 import Profile from "./pages/profile/Profile";
 import Settings from "./pages/settings";
+import Social from "./pages/authentication/Login/Social";
 
 import { UserContext } from "./hooks/useContext";
 import {
   getUserData,
-  useLogin,
   getUserToken,
   isLoggedIn,
 } from "./hooks/useLogin";
@@ -41,6 +42,7 @@ function App() {
             {/* <Route path="/" element={<Profile />} /> */}
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/social/:user" element={<Social />} />
             <Route path="/profile/:id" element={<Profile />} />
             <Route path="/forgot-password" element={<Forgotpassword />} />
 
@@ -55,6 +57,7 @@ function App() {
               element={<TrendingDesktopPage />}
             />
             <Route path="/setting" element={<Settings />} />
+            <Route path="/follower" element={<Follower />} />
             <Route path="/following" element={<Following />} />
             <Route path="/changePassword" element={<ChangePassword />} />
             <Route path="/tweetcomment/:id" element={<SingleTweet />} />
