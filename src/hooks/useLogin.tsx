@@ -1,19 +1,6 @@
 import axios from "axios";
 import { notify } from "../hooks/useNotification";
 import Swal from "sweetalert2";
-export const useLogin = async () => {
-  let response = await axios.post("/login", {
-    firstName: "Finn",
-    lastName: "Williams",
-  });
-
-  return {
-    id: 4,
-    username: "bob",
-    email: "bob@bob.com",
-    token: "123434343",
-  };
-};
 
 export const storeUser = (userData: any) => {
   let data = localStorage.setItem("tweeter", JSON.stringify(userData));
@@ -60,6 +47,5 @@ export const logOut = () => {
     showConfirmButton: false,
     timer: 1500,
   });
-  // notify("success", "Signing Out Account", true);
   window.location.reload();
 };

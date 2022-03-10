@@ -23,7 +23,6 @@ import Settings from "./pages/settings";
 import { UserContext } from "./hooks/useContext";
 import {
   getUserData,
-  useLogin,
   getUserToken,
   isLoggedIn,
 } from "./hooks/useLogin";
