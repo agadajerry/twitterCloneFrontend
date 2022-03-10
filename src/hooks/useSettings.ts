@@ -4,7 +4,8 @@ export const useSettings = () => {
     const [inputs, setInputs] = useState({})
     const [image, setImage] = useState({
         file: {},
-        preview: ''
+        preview: '',
+        formData: {}
     })
 
     const selectPhoto = (e: any) => {
@@ -14,7 +15,8 @@ export const useSettings = () => {
         formData.append('profilePicture', file)
         setImage({
             file,
-            preview: url
+            preview: url,
+            formData
         })
     }
     return {

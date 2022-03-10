@@ -12,9 +12,12 @@ import { BASE_URL } from "../constants/contants";
 import Trending_Follow from "./Trending_Follow";
 import { BeatLoader } from "react-spinners";
 import Tweet from "./Tweet/Tweet";
+import { CirclesWithBar } from "react-loader-spinner";
+import { followingContext } from "./FollowingProvider";
 
 function TrendsController() {
   
+  const { followerTweet, followerCondition, isLoading,isScrolling } = useContext(followingContext);
 
   const userToken: any = useContext(UserContext);
   const token = userToken.token;
@@ -96,9 +99,39 @@ function TrendsController() {
     <>
       <Nav />
       {/* <Trending_Follow /> */}
+
       <div className={styles["tweet-wrapper"]}>
 
+
+
         <div className={styles["tweet-body"]}>
+          
+        {followerCondition.length && followerCondition.map((val: any, index: number) => {
+                return (
+                  <Tweet
+                    key={index}
+                    isLiked={val.isLiked}
+                    isRetweeted={val.isRetweeted}
+                    isBookmarked={val.isBookmarked}
+                    tweetImage={followerTweet[index].tweetImage}
+                    commentCount={followerTweet[index].commentCount}
+                    retweetCount={followerTweet[index].retweetCount}
+                    messageBody={followerTweet[index].messageBody}
+                    userId={followerTweet[index].userId}
+                    createdAt={followerTweet[index].createdAt}
+                    noOfLikes={followerTweet[index].noOfLikes}
+                    _id={followerTweet[index]._id}
+                    bookmarkCount={followerTweet[index].bookmarkCount}
+                  />
+                );
+              })}
+                  {isScrolling ?  <CirclesWithBar
+                    color="#2F80ED"
+                    height={50}
+                    width={50}
+                    wrapperStyle={{ justifyContent: "center",marginTop:"30px" }}
+                  />:""}
+
           {hashtags?.length
             ? hashtags?.map((tag: any) => (
                 <>
@@ -131,7 +164,7 @@ function TrendsController() {
                         alt=""
                       /> : ""}
 
-                      <div className="row">
+                      {/* <div className="row">
                         <div className="col-7"></div>
                         <div className="col-5">
                           <div className="row">
@@ -146,8 +179,8 @@ function TrendsController() {
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="row text-center">
+                      </div> */}
+                      {/* <div className="row text-center">
                         <div className="col-sm-3">
                           <i className="far fa-comment font-ic"> </i> Comments
                         </div>
@@ -160,8 +193,8 @@ function TrendsController() {
                         <div className="col-sm-3">
                           <i className="far fa-bookmark font-ic"></i> Saved
                         </div>
-                      </div>
-                      <br />
+                      </div> */}
+                      {/* <br />
                       <div className="row">
                         <div className="col-1">
                           <img
@@ -178,11 +211,11 @@ function TrendsController() {
                             placeholder="name@example.com"
                           />
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
-                  <br />
-                  <br />
+                  {/* <br />
+                  <br /> */}
                 </>
               ))
             : ""}
@@ -250,7 +283,7 @@ function TrendsController() {
           </div>
         </div>
       </div>
-
+{/* gggg */}
       {/* <Tweet /> */}
       </div>
     </>

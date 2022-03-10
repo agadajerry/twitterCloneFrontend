@@ -364,6 +364,12 @@ textarea:focus {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+          /* align-items: center; */
+}
+
+.who-to-follow .follow-btn{
+  position: relative;
+  top: -12px;
 }
 
 .who-to-follow .suggest-content:hover {
