@@ -17,7 +17,7 @@ import { followingContext } from "./FollowingProvider";
 
 function TrendsController() {
   
-  const { followerTweet, followerCondition, isLoading,isScrolling } = useContext(followingContext);
+  // const { followerTweet, followerCondition, isLoading,isScrolling } = useContext(followingContext);
 
   const userToken: any = useContext(UserContext);
   const token = userToken.token;
@@ -40,7 +40,7 @@ function TrendsController() {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        console.log('tweet-----',res.data);
         setHashtags(res.data.data.tweet);
       })
       .catch((err) => {
@@ -102,189 +102,37 @@ function TrendsController() {
 
       <div className={styles["tweet-wrapper"]}>
 
-
-
         <div className={styles["tweet-body"]}>
           
-        {followerCondition.length && followerCondition.map((val: any, index: number) => {
+        {hashtags?.length && hashtags.map((tag: any, index: number) => {
                 return (
                   <Tweet
                     key={index}
-                    isLiked={val.isLiked}
-                    isRetweeted={val.isRetweeted}
-                    isBookmarked={val.isBookmarked}
-                    tweetImage={followerTweet[index].tweetImage}
-                    commentCount={followerTweet[index].commentCount}
-                    retweetCount={followerTweet[index].retweetCount}
-                    messageBody={followerTweet[index].messageBody}
-                    userId={followerTweet[index].userId}
-                    createdAt={followerTweet[index].createdAt}
-                    noOfLikes={followerTweet[index].noOfLikes}
-                    _id={followerTweet[index]._id}
-                    bookmarkCount={followerTweet[index].bookmarkCount}
+                    isLiked={tag.isLiked}
+                    isRetweeted={tag.isRetweeted}
+                    isBookmarked={tag.isBookmarked}
+                    tweetImage={tag.tweetImage}
+                    commentCount={0}
+                    retweetCount={0}
+                    messageBody={tag.messageBody}
+                    userId={tag.userId}
+                    createdAt={tag.updatedAt}
+                    noOfLikes={0}
+                    _id={tag._id}
+                    bookmarkCount={0}
                   />
                 );
               })}
-                  {isScrolling ?  <CirclesWithBar
+                  {/* {isScrolling ?  <CirclesWithBar
                     color="#2F80ED"
                     height={50}
                     width={50}
                     wrapperStyle={{ justifyContent: "center",marginTop:"30px" }}
-                  />:""}
+                  />:""} */}
 
-          {hashtags?.length
-            ? hashtags?.map((tag: any) => (
-                <>
-                  <div className="card">
-                    <div className="card-body">
-                      <div className="row">
-                        <div className="col-2">
-                          <img
-                            className="col-sm-12 tweet-avatar"
-                            src={tag.userId.profilePic}
-                            alt=""
-                          />
-                        </div>
-                        <div className="col-6">
-                          <h6 className="user-name-tweet col-12">
-                            {tag.userId.firstName + " " + tag.userId.lastName}
-                          </h6>
-                          <h6 className="user-name-date col-12">
-                            {(new Date(tag.updatedAt)).toDateString() + ", " + (new Date(tag.updatedAt)).toTimeString()}
-                          </h6>
-                        </div>
-                        <div className="col-sm-4"></div>
-                      </div>
-                      <p>
-                        {tag.messageBody ? tag.messageBody : ""}
-                      </p>
-                      {tag.tweetImage ? <img
-                        className="card-img-top tweetimage"
-                        src={tag.tweetImage}
-                        alt=""
-                      /> : ""}
-
-                      {/* <div className="row">
-                        <div className="col-7"></div>
-                        <div className="col-5">
-                          <div className="row">
-                            <div className="col-sm-4 tweet-under">
-                              449 Comments
-                            </div>
-                            <div className="col-sm-4 tweet-under">
-                              59k Retweets
-                            </div>
-                            <div className="col-sm-4 tweet-under">
-                              234 Saved
-                            </div>
-                          </div>
-                        </div>
-                      </div> */}
-                      {/* <div className="row text-center">
-                        <div className="col-sm-3">
-                          <i className="far fa-comment font-ic"> </i> Comments
-                        </div>
-                        <div className="col-sm-3">
-                          <i className="fa fa-retweet font-ic"></i> Retweeted
-                        </div>
-                        <div className="col-sm-3">
-                          <i className="far fa-heart font-ic"></i> Liked
-                        </div>
-                        <div className="col-sm-3">
-                          <i className="far fa-bookmark font-ic"></i> Saved
-                        </div>
-                      </div> */}
-                      {/* <br />
-                      <div className="row">
-                        <div className="col-1">
-                          <img
-                            className="card-img-top sendimage"
-                            src="https://res.cloudinary.com/dveib1w9c/image/upload/v1645018165/tweeter/76776d7ccd43c1602fbc6aa3a6ee5ac5_ekahcu.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="col-11">
-                          <input
-                            type="email"
-                            className="form-control"
-                            id="exampleFormControlInput1"
-                            placeholder="name@example.com"
-                          />
-                        </div>
-                      </div> */}
-                    </div>
-                  </div>
-                  {/* <br />
-                  <br /> */}
-                </>
-              ))
-            : ""}
-        </div>
-        
-        <div className={styles["trending-n-follow"]}>
-        <div className={styles.trending}>
-          <h3>trends for you</h3>
-          <div className={styles.underline}></div>
-          {Object.keys(trends).length ? (
-            Object.keys(trends).map((trend: string) => (
-              <div key={trend} className={styles["trending-content"]}>
-                <Link to={`/trends/${trend.replace(/#/g, "")}`}>
-                  {trend}
-                  <span>{trends[trend].length} Tweets</span>
-                </Link>
-              </div>
-            ))
-          ) : (
-            <div className="d-flex justify-content-center my-3 h-100">
-              <BeatLoader color="#2F80ED" />
-            </div>
-          )}
-        </div>
-
-        <div className={styles["who-to-follow"]}>
-          <h3>Who to follow</h3>
-          <div className={styles.underline}></div>
-          <div className={styles["suggest-container"]}>
-            {follow.length ? (
-              follow.map((item) => (
-                <div className={styles["suggest-content"]}>
-                  <div className={styles["suggest-user"]}>
-                    {item.profilePic ? 
-                    <img src={item.profilePic} alt="" /> : <div
-                    style={{
-                      background: "#2F80ED",
-                      width: "43px",
-                      height: "43px",
-                      borderRadius: "20px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "#fff",
-                      marginTop: "20px",
-                      fontWeight: "bold"
-                    }}
-                  >
-                    {item.firstName.charAt(0).toUpperCase() + item.lastName.charAt(0).toUpperCase()}
-                  </div>}
-                    <h3>{`${item.firstName} ${item.lastName}`}</h3>
-                    <button onClick={() => handleFollow(item._id)}>
-                      <span></span>follow
-                    </button>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="d-flex justify-content-center my-3">
-                <BeatLoader color="#2F80ED" />
-              </div>
-            )}
-
-            <div className={styles.underline}></div>
           </div>
-        </div>
-      </div>
-{/* gggg */}
       {/* <Tweet /> */}
+      <Trending_Follow />
       </div>
     </>
   );
