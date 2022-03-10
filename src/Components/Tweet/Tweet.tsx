@@ -191,6 +191,12 @@ const Tweet: React.FC<iTweet> = ({
     e.preventPropagation();
   };
 
+  const handleSingleTweet = (e: any) => {
+    e.preventPropagation();
+    //console.log("Click single tweet")
+    //navigate(`/tweetcomment/${_id}`)
+  }
+
   //handle retweet count
   //
   function handleReTweet(id: string) {
@@ -237,7 +243,7 @@ const Tweet: React.FC<iTweet> = ({
 
   return (
     <div style={{marginBottom: "100px", border: "1px solid #fafafa", padding: "15px", borderRadius: "5px", boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)", cursor: "pointer"}}>
-      <div className={classes.container}   >
+      <div className={classes.container}  onClick={(e) =>  {console.log("br99"); handleSingleTweet(e); }} >
         <div className={classes.wrapper} onClick={(e) => {console.log("8888"); handleProfileRoute(e); }}  >
           <div className={classes.top} >
             <div className={classes.profile}>
