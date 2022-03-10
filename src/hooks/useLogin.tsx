@@ -1,6 +1,8 @@
 import axios from "axios";
 import { notify } from "../hooks/useNotification";
 import Swal from "sweetalert2";
+import { useLocation } from "react-router-dom";
+
 export const useLogin = async () => {
   let response = await axios.post("/login", {
     firstName: "Finn",
@@ -29,7 +31,7 @@ export const getUserToken = () => {
   if (data) {
     data = JSON.parse(data);
     if (!data.user.profilePic) localStorage.removeItem("tweeter");
-    
+
     localStorage.setItem("userlogingImage", data.user.profilePic);
     return data.token;
   }
@@ -43,6 +45,14 @@ export const isLoggedIn = () => {
   const pages = ["login", "signup", "forgot-password"];
   const currentUrl = loginUrl[loginUrl.length - 1];
   // redirect
+
+  console.log({ loginUrl });
+
+  if (loginUrl[3] === "social") {
+    // window.location.href = `/${currentUrl}`;
+    return true;
+  }
+
   if (!data && !pages.includes(currentUrl)) {
     window.location.href = "/login";
     return false;
