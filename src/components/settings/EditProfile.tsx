@@ -14,16 +14,11 @@ const EditProfile = () => {
   const msg: any = useContext(UserContext);
 
   const { selectPhoto, image } = useSettings();
-  const [picture, setPicture] = useState()
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     bioData: "",
-  });
-  const [inputData, setInputData] = useState({
-    firstName: "",
-    lastName: "",
-    bioData: "",
+    profilePic: "",
   });
 
   useEffect(() => {
@@ -42,6 +37,7 @@ const EditProfile = () => {
         firstName: responseData.user.firstName,
         lastName: responseData.user.lastName,
         bioData: responseData.user.bioData,
+        profilePic: responseData.user.profilePic,
       });
     };
     getUserProfile();
@@ -54,14 +50,37 @@ const EditProfile = () => {
     setFormData(newData);
   };
 
-  const saveImage = async (e:any) => {
-    e.preventDefault()
-    console.log(selectPhoto);
-  };
-  const handlePhotoChange = async (e:any) => {
-    e.preventDefault()
-    setPicture(e.target.files[0]);
-    console.log(picture,'photograph');
+  const saveImage = async (e: any) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(
+        `${BASE_URL}profile/picture`,
+        image.formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${msg.token}`,
+          },
+        }
+      );
+
+      let data = response.data;
+      console.log(data);
+      Swal.fire({
+        icon: "success",
+        title: "Updated profile picture successfully",
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    } catch (error: any) {
+      console.log(error.response.data);
+      Swal.fire({
+        icon: "error",
+        title: "An error occured",
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
   };
   const handleSubmit = async () => {
     // console.log("send form data", formData);
@@ -76,16 +95,13 @@ const EditProfile = () => {
     });
 
     let data = await response.json();
-    // console.log("put response", response, data.profile);
+    setFormData({ ...formData, ...data.profile });
     Swal.fire({
       icon: "success",
       title: "Updated profile successfully",
       showConfirmButton: false,
       timer: 2500,
     });
-    setTimeout(() => {
-      window.location.reload();
-    }, 2600);
   };
 
   return (
@@ -95,66 +111,69 @@ const EditProfile = () => {
         <div className="change-password"></div>
       </div>
 
-        <div className="form-container">
-          <div className="heading">
-            <div>
-              <h3>Change Info</h3>
-              <p>Changes will be reflected to every services</p>
-            </div>
-            <div>
-              <a href="/changePassword">change password</a>
-            </div>
+      <div className="form-container">
+        <div className="heading">
+          <div>
+            <h3>Change Info</h3>
+            <p>Changes will be reflected to every services</p>
           </div>
+          <div>
+            <a href="/changePassword">change password</a>
+          </div>
+        </div>
 
-          <div className="change-profile-pics">
-            <label htmlFor="upload-button">
-              <div className="photo-input">
-                <img
-                  src={
-                    image.preview ||
-                    "https://res.cloudinary.com/ckgraphics/image/upload/v1644925390/tweeterclone/undraw_profile_pic_ic5t_rkejzu_lqnnhr.png"
-                  }
-                  alt=""
-                />
-                <FontAwesomeIcon icon={faCamera} />
-              </div>
-            </label>
-            <form onSubmit={saveImage}>
+        <div className="change-profile-pics">
+          <label htmlFor="upload-button">
+            <div className="photo-input">
+              <img
+                src={
+                  formData.profilePic ||
+                  image.preview ||
+                  "https://res.cloudinary.com/ckgraphics/image/upload/v1644925390/tweeterclone/undraw_profile_pic_ic5t_rkejzu_lqnnhr.png"
+                }
+                alt=""
+              />
+              <FontAwesomeIcon icon={faCamera} />
+            </div>
+          </label>
+          <form onSubmit={saveImage}>
             <input
               type="file"
               accept=".png, .jpg, .jpeg, .gif"
               id="upload-button"
               onChange={selectPhoto}
-              
             />
 
-            <button type='submit' className="btn btn-primary" >Upload</button>
-            </form>
-          </div>
-          <div className="form-fields">
-            <Input
-              onChange={handleInputChange}
-              placeholder="Enter your first name"
-              name="firstName"
-              label="First Name"
-              type="text"
-              value={formData.firstName}
-            />
-            <Input
-              onChange={handleInputChange}
-              placeholder="Enter your last name"
-              name="lastName"
-              label="Last Name"
-              type="text"
-              value={formData.lastName}
-            />
-            <textarea
-              onChange={handleInputChange}
-              placeholder="Enter your bio"
-              name="bioData"
-              defaultValue={formData.bioData}
-            />
-            {/* <Input
+            <button type="submit" className="btn btn-primary">
+              Upload
+            </button>
+          </form>
+        </div>
+        <div className="form-fields">
+          <Input
+            onChange={handleInputChange}
+            placeholder="Enter your first name"
+            name="firstName"
+            label="First Name"
+            type="text"
+            value={formData.firstName}
+          />
+          <Input
+            onChange={handleInputChange}
+            placeholder="Enter your last name"
+            name="lastName"
+            label="Last Name"
+            type="text"
+            value={formData.lastName}
+          />
+          <TextArea
+            onChange={handleInputChange}
+            placeholder="Enter your bio"
+            name="bioData"
+            label="Bio Data"
+            value={formData.bioData}
+          />
+          {/* <Input
               onChange={handleInputChange}
               placeholder="Enter your email"
               name="email"
@@ -162,11 +181,11 @@ const EditProfile = () => {
               type="email"
               value={formData.email}
             /> */}
-            <Button className="btn-primary" onClick={handleSubmit}>
-              Save
-            </Button>
-          </div>
+          <Button className="btn-primary" onClick={handleSubmit}>
+            Save
+          </Button>
         </div>
+      </div>
     </div>
   );
 };
