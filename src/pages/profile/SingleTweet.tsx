@@ -8,13 +8,14 @@ import axios from "axios";
 import { BASE_URL } from "../../constants/contants";
 import { AuthContext } from "../../context/Auth.context";
 import { useContext } from "react";
+import Navbar from "../../Components/NavBar/Nav";
 
 
 // import TweetNav from "../../Components/profile/TweetNav";
 
 const SingleTweet = () => {
 
-    let params = useParams();
+    let { id } = useParams();
     const { user } = useContext(AuthContext);
     const [getProfileError, setGetProfileError] = useState(null);
     const [isFetchingProfile, setIsFetchingProfile] = useState(false);
@@ -27,7 +28,7 @@ const SingleTweet = () => {
         try {
       
           setIsFetchingProfile(true);
-          const { data } = await axios.get(`${BASE_URL}profile/${params.id}`, {
+          const { data } = await axios.get(`${BASE_URL}profile/${id}`, {
             headers: {
               Authorization: `Bearer ${user.token}`,
             },
@@ -44,11 +45,12 @@ const SingleTweet = () => {
       };
       
       fetchData();
-    }, [params.id, user.token]);
+    }, [id, user.token]);
     
     useEffect(() => { 
           const displayTweets = async () => {
-            const res = await fetch(`${BASE_URL}tweeting/allTweet`, {
+            
+            const res = await fetch(`${BASE_URL}tweeting/singletweet/${id}`, {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
@@ -61,18 +63,22 @@ const SingleTweet = () => {
           }
           displayTweets();
         }, [])
-        
+
   return (
     <div>
-        <ProfileHeader
-        firstName={profile?.user.firstName}
-        lastName={profile?.user.lastName}
-        bioData={profile?.user.bioData}
-        profilePic={profile?.user.profilePic}
-        followerCount={profile?.followers.Totalfollowers}
-        followingCount={profile?.following.Totalfollowing}
-        isFetching={isFetchingProfile}
-      />
+        <Navbar />
+        <div className="card-body">
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-sm-12" style={{
+                        textAlign: "center",
+                        marginTop: "50px"
+                    }}>
+                        <h3>Profile</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
   )
 }

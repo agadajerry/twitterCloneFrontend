@@ -6,7 +6,7 @@ import { AiOutlineSend } from "react-icons/ai";
 import { ChangeEvent, useContext, useState } from "react";
 // import { followingContext, iFollowing } from "../FollowingProvider";
 import Moment from "moment";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CirclesWithBar } from "react-loader-spinner";
 import React from "react";
 import { BASE_URL } from "../../constants/contants";
@@ -57,6 +57,8 @@ const Tweet: React.FC<iTweet> = ({
   const { user } = useContext(AuthContext);
 
   console.log(isbookMark, isFollowerRetweet, isLike, _id);
+
+  console.log(userId, "userId");
 
   //get text field value
 
@@ -182,6 +184,19 @@ const Tweet: React.FC<iTweet> = ({
     }
   };
 
+  const navigate = useNavigate();
+
+  const handleProfileRoute = (e: any) => {
+    navigate(`/profile/${userId._id}`);
+    e.preventPropagation();
+  };
+
+  const handleSingleTweet = (e: any) => {
+    e.preventPropagation();
+    //console.log("Click single tweet")
+    //navigate(`/tweetcomment/${_id}`)
+  }
+
   //handle retweet count
   //
   function handleReTweet(id: string) {
@@ -222,52 +237,33 @@ const Tweet: React.FC<iTweet> = ({
     e.target.style.display = "none";
   };
 
+  /**
+    
+   */
+
   return (
-    <>
-      <div className={classes.container}>
-        <div className={classes.wrapper}>
-          <div className={classes.top}>
+    <div style={{marginBottom: "100px", border: "1px solid #fafafa", padding: "15px", borderRadius: "5px", boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)", cursor: "pointer"}}>
+      <div className={classes.container}  onClick={(e) =>  {console.log("br99"); handleSingleTweet(e); }} >
+        <div className={classes.wrapper} onClick={(e) => {console.log("8888"); handleProfileRoute(e); }}  >
+          <div className={classes.top} >
             <div className={classes.profile}>
-              <Link to="/profile">
-
-                {userId.profilePic == "null" ? 
-              <div className="image-replacer"><h6>{userId.firstName[0].toUpperCase()+"."+userId.lastName[0].toUpperCase()}</h6></div> :
-                
-        
-                <img
-                  src={userId.profilePic}
-                 onError ={imageErrorHandler}
-                  className={classes.profile__img}
-                  // alt="pro-img"
+              <div  >
+                {userId.profilePic == "null" ? (
+                  <div className="image-replacer">
+                    <h6>
+                      {userId.firstName[0].toUpperCase() +
+                        "." +
+                        userId.lastName[0].toUpperCase()}
+                    </h6>
+                  </div>
+                ) : (
+                  <img
+                    src={userId.profilePic}
+                    onError={imageErrorHandler}
+                    className={classes.profile__img}
                   />
-                  }
-                </Link>
+                )}
               </div>
-              <div className={classes.person}>
-                <p className={classes.person_name}>
-                  {userId.firstName + " " + userId.lastName}
-                </p>
-                <p className={classes.person_date}>
-                  {Moment(createdAt).format("DD-MM-YYYY hh:ss")}
-                </p>
-              </div>
-
-
-            </div>
-            <div className={classes.tweet}>
-              <p style= {{margin:0}}>{messageBody}</p>
-            </div>
-            <div className={classes.main}>
-              <img
-                src={!tweetImage ? "":tweetImage }
-                onError ={imageErrorHandler}
-                className={classes.main_img}
-                alt="img"
-              />
-                  {/* onError={imageErrorHandler}
-                  className={classes.profile__img}
-                />
-              </Link>
             </div>
             <div className={classes.person}>
               <p className={classes.person_name}>
@@ -279,11 +275,11 @@ const Tweet: React.FC<iTweet> = ({
             </div>
           </div>
           <div className={classes.tweet}>
-            <p>{messageBody}</p>
+            <p style={{ margin: 0, marginTop: "7px" }}>{messageBody}</p>
           </div>
           <div className={classes.main}>
             <img
-              src={tweetImage}
+              src={!tweetImage ? "" : tweetImage}
               onError={imageErrorHandler}
               className={classes.main_img}
               alt="img"
@@ -293,24 +289,6 @@ const Tweet: React.FC<iTweet> = ({
                 />
               </Link> */}
           </div>
-          <div className={classes.person}>
-            <p className={classes.person_name}>
-              {userId.firstName + " " + userId.lastName}
-            </p>
-            <p className={classes.person_date}>
-              {Moment.utc(createdAt).local().startOf("seconds").fromNow()}
-            </p>
-          </div>
-        </div>
-        <div className={classes.tweet}>
-          <p>{messageBody}</p>
-        </div>
-        <div className={classes.main}>
-          <img
-            src={tweetImage}
-            onError={imageErrorHandler}
-            className={classes.main_img}
-          />
         </div>
         <div>
           <ul className={classes.second}>
@@ -350,7 +328,7 @@ const Tweet: React.FC<iTweet> = ({
         <div className={classes.last}>
           <div className={classes.profile2}>
             <Link to="/profile">
-              {!user.user.profilePic || user.user.profilePic == "" ? (
+              {!user.user.profilePic || user.user.profilePic == "null" ? (
                 <div className="image-replacer">
                   <h6>
                     {user.user.firstName[0].toUpperCase() +
@@ -393,7 +371,7 @@ const Tweet: React.FC<iTweet> = ({
           </form>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
