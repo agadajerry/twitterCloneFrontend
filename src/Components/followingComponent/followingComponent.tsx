@@ -8,13 +8,13 @@ import { AuthContext } from "../../context/Auth.context";
 import { useContext } from "react";
 
 function FollowingComponent(props: any, _id: any) {
-  let followT = props.isFollow ? 'Unfollow' : 'Follow'
+  let followT = props.isFollow ? "Unfollow" : "Follow";
   const { user } = useContext(AuthContext);
   const [followText, setFollowText] = useState(followT);
-  const [isFollowing, setIsFollowing] = useState(props.isFollow)
+  const [isFollowing, setIsFollowing] = useState(props.isFollow);
   console.log(user);
 
-  // 
+  //
 
   const instance = axios.create({
     baseURL: "https://tweetaclone.herokuapp.com",
@@ -46,7 +46,7 @@ function FollowingComponent(props: any, _id: any) {
         },
       });
       res.status === 200 && setFollowText("Follow");
-      setIsFollowing(false)
+      setIsFollowing(false);
       return res;
     } catch (error) {
       console.log(error);
@@ -65,11 +65,11 @@ function FollowingComponent(props: any, _id: any) {
             <img src={props.profilePic} alt="" className="follow-img" />
             <div className="center">
               <h4 className="follow-name"> {props.name}</h4>
-              <p className="description"> 120k followers</p>
+              <p className="description"> {!props.isFollow ? "You follow" : "Do not follow"}</p>
             </div>
           </div>
           <Button className="my-button" onClick={handleClick}>
-            {isFollowing ? 'Unfollow' : 'Follow'}
+            {isFollowing ? "Unfollow" : "Follow"}
           </Button>
         </div>
         <div>

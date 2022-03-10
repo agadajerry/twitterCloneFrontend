@@ -19,11 +19,11 @@ import Swal from "sweetalert2";
 
 const url: string = `${BASE_URL}users/login`;
 const url2: string = `${BASE_URL}auth/google`;
-const local = "http://localhost:3000/auth/google";
+// const local = "http://localhost:3000/auth/google";
 
 const Login = (): JSX.Element => {
   const google = () => {
-    window.open(local, "_self");
+    window.open(url2, "_self");
     console.log(user);
   };
 
@@ -31,7 +31,7 @@ const Login = (): JSX.Element => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/auth/login/success`);
+        const res = await axios.get(`${BASE_URL}auth/login/success`);
         console.log(res);
         const response = res.data;
         setUser(response);
