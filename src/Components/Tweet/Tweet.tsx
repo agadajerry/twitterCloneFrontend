@@ -6,7 +6,7 @@ import { AiOutlineSend } from "react-icons/ai";
 import { ChangeEvent, useContext, useState } from "react";
 // import { followingContext, iFollowing } from "../FollowingProvider";
 import Moment from "moment";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CirclesWithBar } from "react-loader-spinner";
 import React from "react";
 import { BASE_URL } from "../../constants/contants";
@@ -42,7 +42,6 @@ const Tweet: React.FC<iTweet> = ({
   isRetweeted,
   isBookmarked,
 }) => {
-
   const [textField, setTextField] = useState<any>("");
   const [newHeight, setNewHeight] = useState<any>("22px");
   const [isLoading, setIsLoading] = useState(false);
@@ -58,6 +57,8 @@ const Tweet: React.FC<iTweet> = ({
   const { user } = useContext(AuthContext);
 
   console.log(isbookMark, isFollowerRetweet, isLike, _id);
+
+  console.log(userId, "userId");
 
   //get text field value
 
@@ -76,7 +77,7 @@ const Tweet: React.FC<iTweet> = ({
       if (textField === "") {
         return console.log("Empty field");
       } else {
-        setAllCommentCount(Number(allCommentCount)+1)
+        setAllCommentCount(Number(allCommentCount) + 1);
         const postData = { content: textField };
         setIsLoading(true);
 
@@ -93,19 +94,16 @@ const Tweet: React.FC<iTweet> = ({
         })
           .then((res) => res.json())
           .then((data) => {
-
             setTextField(" ");
             setNewHeight("22px");
           })
           .catch((err: any) => console.log(err));
         setIsLoading(false);
       }
-    } catch (err: any) {
+    } catch (err) {
       return console.error(err);
     }
   };
-
-
 
   //handle bookmarking
   const bookMarkNewTweet = async (tweetId: string) => {
@@ -129,10 +127,6 @@ const Tweet: React.FC<iTweet> = ({
 
   //handle bookmark delete
 
-
-
-
-
   const bookMarkDelete = async (tweetId: string) => {
     const bookMarkUrl = `${BASE_URL}tweet/${tweetId}/bookmark`;
 
@@ -147,9 +141,6 @@ const Tweet: React.FC<iTweet> = ({
       .then((data) => console.log(data))
       .catch((err: any) => console.log(err));
   };
-
-
-
 
   //handle book marking event listener function
 
@@ -193,8 +184,18 @@ const Tweet: React.FC<iTweet> = ({
     }
   };
 
+  const navigate = useNavigate();
 
+  const handleProfileRoute = (e: any) => {
+    navigate(`/profile/${userId._id}`);
+    e.preventPropagation();
+  };
 
+  const handleSingleTweet = (e: any) => {
+    e.preventPropagation();
+    //console.log("Click single tweet")
+    //navigate(`/tweetcomment/${_id}`)
+  }
 
   //handle retweet count
   //
@@ -227,152 +228,150 @@ const Tweet: React.FC<iTweet> = ({
           },
         });
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
     }
   }
 
-
-
-
-
-  const imageErrorHandler = (e:any) => {
-
-    e.target.style.display = "none"
+  const imageErrorHandler = (e: any) => {
+    e.target.style.display = "none";
   };
 
+  /**
+    
+   */
+
   return (
-    <>
-      <div className={classes.container}>
-      
-      
-        <div className={classes.wrapper}>
-          <div className={classes.top}>
+    <div style={{marginBottom: "100px", border: "1px solid #fafafa", padding: "15px", borderRadius: "5px", boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)", cursor: "pointer"}}>
+      <div className={classes.container}  onClick={(e) =>  {console.log("br99"); handleSingleTweet(e); }} >
+        <div className={classes.wrapper} onClick={(e) => {console.log("8888"); handleProfileRoute(e); }}  >
+          <div className={classes.top} >
             <div className={classes.profile}>
-              <Link to="/profile">
-
-                {userId.profilePic == "null" ? 
-              <div className="image-replacer"><h6>{userId.firstName[0].toUpperCase()+"."+userId.lastName[0].toUpperCase()}</h6></div> :
-                
-        
-                <img
-               
-                  src={userId.profilePic}
-                 onError ={imageErrorHandler}
-                  className={classes.profile__img}
-            
+              <div  >
+                {userId.profilePic == "null" ? (
+                  <div className="image-replacer">
+                    <h6>
+                      {userId.firstName[0].toUpperCase() +
+                        "." +
+                        userId.lastName[0].toUpperCase()}
+                    </h6>
+                  </div>
+                ) : (
+                  <img
+                    src={userId.profilePic}
+                    onError={imageErrorHandler}
+                    className={classes.profile__img}
                   />
-                  }
-                </Link>
+                )}
               </div>
-              <div className={classes.person}>
-                <p className={classes.person_name}>
-                  {userId.firstName + " " + userId.lastName}
-                </p>
-                <p className={classes.person_date}>
-                  {Moment(createdAt).format("DD-MM-YYYY hh:ss")}
-                </p>
-              </div>
-
-
             </div>
-            <div className={classes.tweet}>
-              <p style= {{margin:0}}>{messageBody}</p>
+            <div className={classes.person}>
+              <p className={classes.person_name}>
+                {userId.firstName + " " + userId.lastName}
+              </p>
+              <p className={classes.person_date}>
+                {Moment(createdAt).format("DD-MM-YYYY hh:ss")}
+              </p>
             </div>
-            <div className={classes.main}>
-              <img
-                src={!tweetImage ? "":tweetImage }
-                onError ={imageErrorHandler}
-                className={classes.main_img}
-                alt="img"
-              />
-                  {/* onError={imageErrorHandler}
+          </div>
+          <div className={classes.tweet}>
+            <p style={{ margin: 0, marginTop: "7px" }}>{messageBody}</p>
+          </div>
+          <div className={classes.main}>
+            <img
+              src={!tweetImage ? "" : tweetImage}
+              onError={imageErrorHandler}
+              className={classes.main_img}
+              alt="img"
+            />
+            {/* onError={imageErrorHandler}
                   className={classes.profile__img}
                 />
               </Link> */}
-            </div>
-
-        
-          </div>
-          <div>
-            <ul className={classes.second}>
-              <li>{allCommentCount} Comments</li>
-              <li> {allretweetCount} Retweets</li>
-              <li>{allBookMarkCount} Saved</li>
-            </ul>
-          </div>
-          <div className={classes.action}>
-            <div className={classes.actions}>
-              <button>
-                <span>
-                  <FiMessageSquare className={classes.icons} />
-                  <span className={classes.button}>Comments</span>
-                </span>
-              </button>
-              <button onClick={() => handleReTweet(_id)}>
-                <span style={{ color: isFollowerRetweet ? "red" : "grey" }}>
-                  <FaRetweet className={classes.icons} />
-                  <span className={classes.button}>Retweets</span>
-                </span>
-              </button>
-              <button onClick={() => handleLikes()}>
-                <span style={{ color: isLike ? "deeppink" : "grey" }}>
-                  <BsFillSuitHeartFill className={classes.icons} />
-                  <span className={classes.button}>Likes</span>
-                </span>
-              </button>
-              <button onClick={() => handleBookMarkTweet(_id)}>
-                <span style={{ color: isbookMark ? "red" : "grey" }}>
-                  <FiBookmark className={classes.icons} />
-                  <span className={classes.button}>Saved</span>
-                </span>
-              </button>
-            </div>
-          </div>
-          <div className={classes.last}>
-            <div className={classes.profile2}>
-              <Link to="/profile">
-
-              {!user.user.profilePic  || user.user.profilePic=="null"?  
-              <div className="image-replacer"><h6>{user.user.firstName[0].toUpperCase()+"."+user.user.lastName[0].toUpperCase()}</h6></div> :
-                <img
-                src={user.user.profilePic}
-                  onError={imageErrorHandler}
-                  className={classes.profile2_img}
-               
-                />
-                }
-              </Link>
-            </div>
-            <form action="" className={classes.form}>
-              <textarea
-                onChange={(e) => getTextFieldValue(e)}
-                placeholder="Tweet your reply"
-                value={textField}
-                name={"message"}
-                style={{ height: newHeight }}
-              ></textarea>
-              <span
-                onClick={() => handleComment(_id)}
-                className={classes.iconBox}
-              >
-                {isLoading ? (
-                  <CirclesWithBar
-                    color="#2F80ED"
-                    height={30}
-                    width={30}
-                    wrapperStyle={{ justifyContent: "center" }}
-                  />
-                ) : (
-                  <AiOutlineSend className={classes.icon} />
-                )}
-              </span>
-            </form>
           </div>
         </div>
-     
-     
-    </>
+        <div>
+          <ul className={classes.second}>
+            <li>{allCommentCount} Comments</li>
+            <li> {allretweetCount} Retweets</li>
+            <li>{allBookMarkCount} Saved</li>
+          </ul>
+        </div>
+        <div className={classes.action}>
+          <div className={classes.actions}>
+            <button>
+              <span>
+                <FiMessageSquare className={classes.icons} />
+                <span className={classes.button}>Comments</span>
+              </span>
+            </button>
+            <button onClick={() => handleReTweet(_id)}>
+              <span style={{ color: isFollowerRetweet ? "red" : "grey" }}>
+                <FaRetweet className={classes.icons} />
+                <span className={classes.button}>Retweets</span>
+              </span>
+            </button>
+            <button onClick={() => handleLikes()}>
+              <span style={{ color: isLike ? "deeppink" : "grey" }}>
+                <BsFillSuitHeartFill className={classes.icons} />
+                <span className={classes.button}>Likes</span>
+              </span>
+            </button>
+            <button onClick={() => handleBookMarkTweet(_id)}>
+              <span style={{ color: isbookMark ? "red" : "grey" }}>
+                <FiBookmark className={classes.icons} />
+                <span className={classes.button}>Saved</span>
+              </span>
+            </button>
+          </div>
+        </div>
+        <div className={classes.last}>
+          <div className={classes.profile2}>
+            <Link to="/profile">
+              {!user.user.profilePic || user.user.profilePic == "null" ? (
+                <div className="image-replacer">
+                  <h6>
+                    {user.user.firstName[0].toUpperCase() +
+                      "." +
+                      user.user.lastName[0].toUpperCase()}
+                  </h6>
+                </div>
+              ) : (
+                <img
+                  src={user.user.profilePic}
+                  onError={imageErrorHandler}
+                  className={classes.profile2_img}
+                />
+              )}
+            </Link>
+          </div>
+          <form action="" className={classes.form}>
+            <textarea
+              onChange={(e) => getTextFieldValue(e)}
+              placeholder="Tweet your reply"
+              value={textField}
+              name={"message"}
+              style={{ height: newHeight }}
+            ></textarea>
+            <span
+              onClick={() => handleComment(_id)}
+              className={classes.iconBox}
+            >
+              {isLoading ? (
+                <CirclesWithBar
+                  color="#2F80ED"
+                  height={30}
+                  width={30}
+                  wrapperStyle={{ justifyContent: "center" }}
+                />
+              ) : (
+                <AiOutlineSend className={classes.icon} />
+              )}
+            </span>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 };
 

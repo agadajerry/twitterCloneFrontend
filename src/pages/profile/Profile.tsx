@@ -85,7 +85,7 @@ const Profile = () => {
           {tweets.length>0 && tweets.map((val:any,i:any)=>(
           <div>
             <Link 
-              to="/profile/*"
+              to={`/tweetcomment/${val['item']._id}`}
               style={{
                 textDecoration: "none",
                 color: "#000"

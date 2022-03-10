@@ -1,45 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import FollowingComponent from "../followingComponent/followingComponent";
-import "./following.scss";
+import "./follower.scss";
 import axios from "axios";
 import { AuthContext } from "../../context/Auth.context";
 import { useContext } from "react";
 
-function Following() {
+function Follower() {
   const { user } = useContext(AuthContext);
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [following, setFollowing] = useState([]);
+  const [followers, setFollowers] = useState([]);
 
   const url = "https://tweetaclone.herokuapp.com/";
 
   useEffect(() => {
-    const getFollowings = async () => {
+    const getFollowers = async () => {
       try {
-        const res = await axios(
-          `${url}api/follow/following/?pageNo=1&pageSize=20`,
-          {
-            headers: {
-              Authorization: "Bearer " + user.token, //the token is a variable which holds the token
-            },
-          }
-        );
-        const following = res.data.data.following;
-        setFollowing(following);
-        console.log(following);
+        const res = await axios(`${url}api/follow/?pageNo=1&pageSize=20`, {
+          headers: {
+            Authorization: "Bearer " + user.token, //the token is a variable which holds the token
+          },
+        });
+        const followers = res.data.data.followers;
+        setFollowers(followers);
+        console.log(followers);
       } catch (err) {
         console.log(err);
       }
     };
-    getFollowings();
+    getFollowers();
   }, []);
-  
 
-  const followingElement = following.map(
+  const followerElement = followers.map(
     ({ index, firstName, _id, lastName, profilePic, bioData, isFollow }) => (
       <FollowingComponent
         key={index}
@@ -55,10 +51,10 @@ function Following() {
   return (
     <>
       <div className="follow-button" onClick={handleShow}>
-        Following List
+        Followers List
       </div>
 
-      {following && console.log(following)}
+      {followers && console.log(followers)}
 
       <Modal
         show={show}
@@ -68,13 +64,13 @@ function Following() {
       >
         <Modal.Header closeButton>
           <div className="fixed">
-            <p> You are now following daniel jenson </p>
+            <p>daniel jenson is following You </p>
           </div>
         </Modal.Header>
-        {followingElement}
+        {followerElement}
       </Modal>
     </>
   );
 }
 
-export default Following;
+export default Follower;
