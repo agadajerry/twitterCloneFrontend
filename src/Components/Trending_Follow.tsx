@@ -18,11 +18,14 @@ function Trending_Follow() {
 
   const [trends, setTrends] = useState<any>([]);
   const [follow, setFollow] = useState<any[]>([]);
+  const [suggestionLoading, setSuggestionLoading] = useState(false)
+  const [trendLoading, setTrendLoading] = useState(false)
 
   const url = `${BASE_URL}api/trends`;
   const uri = `${BASE_URL}api/follow/suggest/?pageNo=2&pageSize=5`;
 
   useEffect(() => {
+    setTrendLoading(true)
     axios
       .get(url, {
         headers: {
@@ -30,13 +33,18 @@ function Trending_Follow() {
         },
       })
       .then((res) => {
+        setTrendLoading(false)
         console.log(res.data);
         setTrends(res.data.data.trending);
       })
       .catch((err) => {
+        setTrendLoading(false)
         console.log(err);
       });
+  }, []);
 
+  useEffect(() => {
+    setSuggestionLoading(true)
     axios
       .get(uri, {
         headers: {
@@ -45,12 +53,13 @@ function Trending_Follow() {
       })
       .then((res) => {
         console.log(res.data);
+        setSuggestionLoading(false)
         setFollow(res.data["suggested-connection"].suggestedConnection);
       })
       .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+        setSuggestionLoading(false)
+        console.log(err);})
+  }, [])
 
   const handleFollow = (userId: string) => {
     axios
@@ -78,8 +87,8 @@ function Trending_Follow() {
         <div className={styles.trending}>
           <h3>trends for you</h3>
           <div className={styles.underline}></div>
-          {Object.keys(trends).length ? (
-            Object.keys(trends).map((trend: string) => (
+          {!trendLoading ? (
+            Object.keys(trends).length && Object.keys(trends).map((trend: string) => (
               <div key={trend} className={styles["trending-content"]}>
                 <Link to={`/trends/${trend.replace(/#/g, "")}`}>
                   {trend}
@@ -98,8 +107,8 @@ function Trending_Follow() {
           <h3>Who to follow</h3>
           <div className={styles.underline}></div>
           <div className={styles["suggest-container"]}>
-            {follow.length ? (
-              follow.map((item) => (
+            {!suggestionLoading ? (
+              follow.length && follow.map((item) => (
                 <div className={styles["suggest-content"]}>
                   <div className={styles["suggest-user"]}>
                     {item.profilePic ? 

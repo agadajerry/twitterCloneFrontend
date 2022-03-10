@@ -84,24 +84,37 @@ const EditProfile = () => {
   };
   const handleSubmit = async () => {
     // console.log("send form data", formData);
+    try {
+      const response = await fetch(`${BASE_URL}profile`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${msg.token}`,
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          bioData: formData.bioData,
+        }),
+      });
 
-    const response = await fetch(`${BASE_URL}profile`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${msg.token}`,
-      },
-      body: JSON.stringify(formData),
-    });
-
-    let data = await response.json();
-    setFormData({ ...formData, ...data.profile });
-    Swal.fire({
-      icon: "success",
-      title: "Updated profile successfully",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+      let data = await response.json();
+      setFormData({ ...formData, ...data.profile });
+      Swal.fire({
+        icon: "success",
+        title: "Updated profile successfully",
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    } catch (error: any) {
+      console.log(error.response.data);
+      Swal.fire({
+        icon: "error",
+        title: "An error occured",
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
   };
 
   return (
@@ -127,8 +140,8 @@ const EditProfile = () => {
             <div className="photo-input">
               <img
                 src={
-                  formData.profilePic ||
                   image.preview ||
+                  formData.profilePic ||
                   "https://res.cloudinary.com/ckgraphics/image/upload/v1644925390/tweeterclone/undraw_profile_pic_ic5t_rkejzu_lqnnhr.png"
                 }
                 alt=""

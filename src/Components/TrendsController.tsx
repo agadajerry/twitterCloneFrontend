@@ -106,7 +106,7 @@ function TrendsController() {
 
         <div className={styles["tweet-body"]}>
           
-        {followerCondition.map((val: any, index: number) => {
+        {followerCondition.length && followerCondition.map((val: any, index: number) => {
                 return (
                   <Tweet
                     key={index}
