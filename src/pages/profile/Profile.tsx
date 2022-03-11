@@ -82,7 +82,7 @@ const Profile = () => {
             
           </div>
           <div className="col-sm-9">
-          {tweets.length>0 && tweets.map((val:any,i:any)=>(
+          {tweets.length>0 && (tweets.sort((a:any,b: any)=>b-a)).map((val:any,i:any)=>(
           <div>
             <Link 
               to={`/tweetcomment/${val['item']._id}`}
@@ -112,13 +112,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
-{/* <div className="col-sm-9">
-          {tweets && tweets.map((tweet: any, index: any) => (
-            <div key={index}>
-              <Routes>
-                <Route path="tweet" element={<Tweet updatedAt={tweet.updatedAt} messageBody={tweet.messageBody}/>} />
-              </Routes>
-            </div>
-          ))}
-          </div> */}
