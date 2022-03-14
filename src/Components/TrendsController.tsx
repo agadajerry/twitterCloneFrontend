@@ -102,7 +102,7 @@ function TrendsController() {
 
       <div className={styles["tweet-wrapper"]}>
 
-        <div className={styles["tweet-body"]}>
+        <div className={styles["tweet-body"]} style={{marginBottom: '100px', padding: '80px'}}>
           
         {hashtags?.length && hashtags.map((tag: any, index: number) => {
                 return (
@@ -129,7 +129,7 @@ function TrendsController() {
                     width={50}
                     wrapperStyle={{ justifyContent: "center",marginTop:"30px" }}
                   />:""} */}
-
+          <div style={{marginBottom: '40px', padding: '20px'}}                                                                                                                                                                                                                                                                           ></div>
           </div>
       {/* <Tweet /> */}
       <Trending_Follow />
