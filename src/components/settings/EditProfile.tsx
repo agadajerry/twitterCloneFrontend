@@ -13,7 +13,7 @@ import { LanguageContext } from "../../context/test.context";
 import { Windows } from "react-bootstrap-icons";
 
 const EditProfile = () => {
-  const { language, setLanguage } :any= useContext(LanguageContext);
+  const { language, setLanguage }: any = useContext(LanguageContext);
   const { user, setUser }: any = useContext(UserContext);
   console.log(user.user, "contextdata");
 
@@ -65,6 +65,10 @@ const EditProfile = () => {
       });
 
       let data = response.data;
+      let newUser = { status: user.status, token: user.token, user: data.profile };
+      setUser(newUser);
+      localStorage.setItem("tweeter", JSON.stringify(newUser));
+
       console.log(data, "");
       Swal.fire({
         icon: "success",
@@ -72,6 +76,9 @@ const EditProfile = () => {
         showConfirmButton: false,
         timer: 2500,
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 2500);
     } catch (error: any) {
       console.log(error.response.data);
       Swal.fire({
@@ -100,7 +107,7 @@ const EditProfile = () => {
 
       let data = await response.json();
       let newUser = { status: user.status, token: user.token, user: data.profile };
-      setUser(newUser)
+      setUser(newUser);
       localStorage.setItem("tweeter", JSON.stringify(newUser));
       console.log(newUser, "check submit response");
       setFormData({ ...formData, ...data.profile });
