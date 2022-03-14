@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import  { useContext, useState } from 'react'
 import { Circles } from 'react-loader-spinner';
 import Swal from 'sweetalert2';
+import { AVATAR } from '../constants/contants';
 // import { BASE_URL } from '../constants/contants';
 import { UserContext } from '../hooks/useContext';
 import styles from "../styles/Tweeting_style/TweetController.module.css";
@@ -144,7 +145,7 @@ function CreateTweet() {
             <div className={styles.underline}></div>
             <div className={styles["write-message"]}>
               <img
-                src="https://res.cloudinary.com/ckgraphics/image/upload/v1644925390/tweeterclone/undraw_profile_pic_ic5t_rkejzu_lqnnhr.png"
+                src={user.user.profilePic || AVATAR}
                 className={styles["user-image"]}
                 alt="user"
               />
