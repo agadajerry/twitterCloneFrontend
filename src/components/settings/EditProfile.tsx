@@ -65,7 +65,7 @@ const EditProfile = () => {
       );
 
       let data = response.data;
-      console.log(data);
+      console.log(data,'');
       Swal.fire({
         icon: "success",
         title: "Updated profile picture successfully",
@@ -99,6 +99,9 @@ const EditProfile = () => {
       });
 
       let data = await response.json();
+      let newUser={status:msg.status,token:msg.token,user:data.profile}
+      localStorage.setItem('tweeter',JSON.stringify(newUser))
+      console.log(newUser, 'check submit response')
       setFormData({ ...formData, ...data.profile });
       Swal.fire({
         icon: "success",
