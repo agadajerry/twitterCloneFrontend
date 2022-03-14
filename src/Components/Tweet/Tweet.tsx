@@ -9,7 +9,7 @@ import Moment from "moment";
 import { Link, useNavigate } from "react-router-dom";
 import { CirclesWithBar } from "react-loader-spinner";
 import React from "react";
-import { BASE_URL } from "../../constants/contants";
+import { AVATAR, BASE_URL } from "../../constants/contants";
 import { UserContext } from "../../hooks/useContext";
 import { AuthContext } from "../../context/Auth.context";
 import axios from "axios";
@@ -260,9 +260,10 @@ const Tweet: React.FC<iTweet> = ({
                   </div>
                 ) : (
                   <img
-                    src={userId.profilePic}
+                    src={userId.profilePic || AVATAR}
                     onError={imageErrorHandler}
                     className={classes.profile__img}
+                    alt='userphoto'
                   />
                 )}
               </div>
