@@ -10,23 +10,20 @@ import axios from "axios";
 import { BASE_URL } from "../../constants/contants";
 import { AuthContext } from "../../context/Auth.context";
 import { useContext } from "react";
-
-
-// import TweetNav from "../../Components/profile/TweetNav";
+import { UserContext } from "../../hooks/useContext";
 
 const Profile = () => {
   let params = useParams();
-  const { user } = useContext(AuthContext);
+  const { user, setUser }: any = useContext(UserContext);
+  // const { user } = useContext(AuthContext);
   const [getProfileError, setGetProfileError] = useState(null);
   const [isFetchingProfile, setIsFetchingProfile] = useState(false);
   const [profile, setProfile] = useState<Record<string, any> | null>(null);
   const [tweets, setTweets] = useState([]);
-  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-    
         setIsFetchingProfile(true);
         const { data } = await axios.get(`${BASE_URL}profile/${params.id}`, {
           headers: {
@@ -35,7 +32,7 @@ const Profile = () => {
         });
 
         console.log(data, "user profile");
-    
+
         setProfile(data);
         setIsFetchingProfile(false);
       } catch (e: any) {
@@ -43,25 +40,25 @@ const Profile = () => {
         setGetProfileError(e);
       }
     };
-    
+
     fetchData();
   }, [params.id, user.token]);
-  
-  useEffect(() => { 
-        const displayTweets = async () => {
-          const res = await fetch(`${BASE_URL}tweeting/allTweet`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${user.token}`
-            }
-          });
-          const result = await res.json();
-          console.log(result.data)
-          setTweets(result.data);
-        }
-        displayTweets();
-      }, [])
+
+  useEffect(() => {
+    const displayTweets = async () => {
+      const res = await fetch(`${BASE_URL}tweeting/allTweet`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const result = await res.json();
+      console.log(result.data);
+      setTweets(result.data);
+    };
+    displayTweets();
+  }, []);
 
   return (
     <div>
@@ -79,25 +76,29 @@ const Profile = () => {
         <div className="row">
           <div className="col-sm-3">
             <TweetNav />
-            
           </div>
           <div className="col-sm-9">
-          {tweets.length>0 && (tweets.sort((a:any,b: any)=>b-a)).map((val:any,i:any)=>(
-          <div>
-            <Link 
-              to={`/tweetcomment/${val['item']._id}`}
-              style={{
-                textDecoration: "none",
-                color: "#000"
-              }}>
-              <Tweet messageBody={val['item']['messageBody']} createdAt={val['item']['createdAt']}/>
-            </Link>
-          </div>
-      ))
-      }
+            {tweets.length > 0 &&
+              tweets
+                .sort((a: any, b: any) => b - a)
+                .map((val: any, i: any) => (
+                  <div>
+                    <Link
+                      to={`/tweetcomment/${val["item"]._id}`}
+                      style={{
+                        textDecoration: "none",
+                        color: "#000",
+                      }}
+                    >
+                      <Tweet
+                        messageBody={val["item"]["messageBody"]}
+                        createdAt={val["item"]["createdAt"]}
+                      />
+                    </Link>
+                  </div>
+                ))}
 
-          
-          {/* {tweets && tweets.map((tweet: any, index: any) => (
+            {/* {tweets && tweets.map((tweet: any, index: any) => (
             <div key={index}>
               <Routes>
                 <Route path="/profile/*" element={<Tweet messageBody={tweet["item"]["messageBody"]}/>} />
