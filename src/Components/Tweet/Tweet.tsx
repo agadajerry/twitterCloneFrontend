@@ -53,8 +53,10 @@ const Tweet: React.FC<iTweet> = ({
   const [allCommentCount, setAllCommentCount] = useState(commentCount);
   const [allretweetCount, setAllretweetCount] = useState(retweetCount);
 
-  const userToken: any = useContext(UserContext);
-  const { user } = useContext(AuthContext);
+  const { user, setUser }: any = useContext(UserContext);
+
+  // const user: any = useContext(UserContext);
+  // const { user } = useContext(AuthContext);
 
   console.log(isbookMark, isFollowerRetweet, isLike, _id);
 
@@ -88,7 +90,7 @@ const Tweet: React.FC<iTweet> = ({
           body: JSON.stringify(postData),
 
           headers: {
-            Authorization: "Bearer " + userToken.token,
+            Authorization: "Bearer " + user.token,
             "Content-Type": "application/json",
           },
         })
@@ -116,7 +118,7 @@ const Tweet: React.FC<iTweet> = ({
       body: JSON.stringify(postData),
 
       headers: {
-        Authorization: "Bearer " + userToken.token,
+        Authorization: "Bearer " + user.token,
         "Content-Type": "application/json",
       },
     })
@@ -133,7 +135,7 @@ const Tweet: React.FC<iTweet> = ({
     fetch(bookMarkUrl, {
       method: "DELETE",
       headers: {
-        Authorization: "Bearer " + userToken.token,
+        Authorization: "Bearer " + user.token,
         "Content-Type": "application/json",
       },
     })
@@ -163,7 +165,7 @@ const Tweet: React.FC<iTweet> = ({
       setLikeTweet(Number(likeTweet) - 1);
 
       await axios.delete(unlikeTweetUrl, {
-        headers: { Authorization: "Bearer " + userToken.token },
+        headers: { Authorization: "Bearer " + user.token },
       });
       setIsLike(false);
     } else {
@@ -174,7 +176,7 @@ const Tweet: React.FC<iTweet> = ({
         {},
         {
           headers: {
-            Authorization: "Bearer " + userToken.token,
+            Authorization: "Bearer " + user.token,
             "Content-Type": "application/json",
           },
         }
@@ -207,7 +209,7 @@ const Tweet: React.FC<iTweet> = ({
         fetch(retweetUrl, {
           method: "POST",
           headers: {
-            Authorization: "Bearer " + userToken.token,
+            Authorization: "Bearer " + user.token,
           },
         })
           .then((res) => res.json())
@@ -224,7 +226,7 @@ const Tweet: React.FC<iTweet> = ({
         fetch(undoretweetUrl, {
           method: "DELETE",
           headers: {
-            Authorization: "Bearer " + userToken.token,
+            Authorization: "Bearer " + user.token,
           },
         });
       }

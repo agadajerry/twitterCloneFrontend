@@ -13,6 +13,7 @@ import { notify } from "../../../hooks/useNotification";
 import Swal from "sweetalert2";
 import { BeatLoader } from "react-spinners";
 import { Link } from "react-router-dom"
+import { titleCase } from "../../../hooks/useTitleCase";
 
 
 const url: string = `${BASE_URL}users/signup`;
@@ -85,15 +86,16 @@ const Signup = (): JSX.Element => {
       ) {
         const data = await response.json();
         console.log(data);
+        const titleResponse=titleCase(data.message);
         Swal.fire({
           icon: "warning",
-          title: "Failed to register account",
+          title: `${titleResponse}`,
           showConfirmButton: false,
-          timer: 2500,
+          timer: 5500,
         });
             setloadingMsg("");
 
-        notify("warning", "Registration failed", false);
+        // notify("error", "Registration failed", false);
       }
 
       console.log(response);

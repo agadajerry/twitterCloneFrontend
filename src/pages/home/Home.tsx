@@ -1,15 +1,17 @@
-import React, { useContext } from 'react'
-import Navbar from '../../Components/NavBar/Nav'
-import { UserContext } from '../../hooks/useContext'
+import React, { useContext } from "react";
+import Navbar from "../../Components/NavBar/Nav";
+import { UserContext } from "../../hooks/useContext";
 
 const Home = () => {
-  const msg=useContext(UserContext)
+  const { user, setUser }: any = useContext(UserContext);
+
+  // const msg=useContext(UserContext)
   return (
     <div>
       <Navbar />
-        <h1>Tweeter Team A</h1>
+      <h1>Tweeter Team A</h1>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
