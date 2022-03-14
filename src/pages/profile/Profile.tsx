@@ -46,7 +46,7 @@ const Profile = () => {
 
   useEffect(() => {
     const displayTweets = async () => {
-      const res = await fetch(`${BASE_URL}tweeting/allTweet`, {
+      const res = await fetch(`${BASE_URL}tweeting/otherusertweet/${params.id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -54,8 +54,8 @@ const Profile = () => {
         },
       });
       const result = await res.json();
-      console.log(result.data);
-      setTweets(result.data);
+      console.log(result.data, result.data[1]["OtherUserTweet"], "fdfdfndfb check");
+      setTweets(result.data[1]["OtherUserTweet"]);
     };
     displayTweets();
   }, []);
@@ -78,25 +78,28 @@ const Profile = () => {
             <TweetNav />
           </div>
           <div className="col-sm-9">
+            {tweets && console.log(tweets, "check state datat")}
+
             {tweets.length > 0 &&
-              tweets
-                .sort((a: any, b: any) => b - a)
-                .map((val: any, i: any) => (
-                  <div>
-                    <Link
-                      to={`/tweetcomment/${val["item"]._id}`}
-                      style={{
-                        textDecoration: "none",
-                        color: "#000",
-                      }}
-                    >
-                      <Tweet
-                        messageBody={val["item"]["messageBody"]}
-                        createdAt={val["item"]["createdAt"]}
-                      />
-                    </Link>
-                  </div>
-                ))}
+              tweets.map((val: any, i: any) => (
+                <div>
+                  <Link
+                    to={`/tweetcomment/${val._id}`}
+                    style={{
+                      textDecoration: "none",
+                      color: "#000",
+                    }}
+                  >
+                    <Tweet
+                      messageBody={val["messageBody"]}
+                      createdAt={val["createdAt"]}
+                      firstName={val.userId.firstName}
+                      lastName={val.userId.lastName}
+                      tweetImage={val.tweetImage}
+                    />
+                  </Link>
+                </div>
+              ))}
 
             {/* {tweets && tweets.map((tweet: any, index: any) => (
             <div key={index}>
