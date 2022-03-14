@@ -6,6 +6,7 @@ import { Circles } from "react-loader-spinner";
 import { FaPlus } from "react-icons/fa";
 import Following from "../Following/following";
 import Follower from "../Follower/follower";
+import { AVATAR } from "../../constants/contants";
 
 interface IProps {
   firstName: string;
@@ -46,17 +47,13 @@ const ProfileHeader = (props: IProps) => {
               <div className="row">
                 <div className="col-sm-3 ">
                   <div className="spacer">
-                    {!props.profilePic ? (
-                      <div className="avatar-profile1">
-                        {props.firstName + " " + props.lastName}
-                      </div>
-                    ) : (
+
                       <img
                         className="avatar-profile"
-                        src={props.profilePic}
+                        src={props.profilePic || AVATAR}
                         alt=""
                       />
-                    )}
+
                   </div>
                 </div>
                 <div className="col-sm-6">
