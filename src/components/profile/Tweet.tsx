@@ -1,9 +1,19 @@
 import React from "react";
 import { UserContext } from "../../hooks/useContext";
 import { useContext } from "react";
+import { AVATAR } from "../../constants/contants";
+import { addDefaultSrc } from "../../hooks/useImageChecker";
 // import Tweetnav from "./TweetNav"
 
-const Tweet = (props: any) => {
+interface ITweetprofile {
+  firstName: string;
+  lastName: string;
+  createdAt: string;
+  messageBody: string;
+  tweetImage: string;
+}
+
+const Tweet = (props: ITweetprofile) => {
   const { user, setUser }: any = useContext(UserContext);
 
   // const user:any = useContext(UserContext)
@@ -22,7 +32,7 @@ const Tweet = (props: any) => {
             </div>
             <div className="col-6">
               <h6 className="user-name-tweet col-12">
-                {user.user.firstName} {user.user.lastName}
+                {props.firstName} {props.lastName}
               </h6>
               <h6 className="user-name-date col-12">{new Date(props.createdAt).toDateString()}</h6>
             </div>
@@ -39,7 +49,12 @@ const Tweet = (props: any) => {
             {props.messageBody}.
           </p>
           {props.tweetImage ? (
-            <img className="card-img-top tweetimage" src={props.tweetImage} alt="" />
+            <img
+              className="card-img-top tweetimage"
+              onError={addDefaultSrc}
+              src={props.tweetImage}
+              alt=""
+            />
           ) : null}
           <div className="row">
             <div className="col-7"></div>
