@@ -187,6 +187,9 @@ const Login = (): JSX.Element => {
               marginTop: "5px",
               fontSize: "0.8rem",
               textTransform: "capitalize",
+              padding: '3px',
+              width: '230px',
+              height: '50px'
             }}
           >
             <FcGoogle
@@ -202,7 +205,13 @@ const Login = (): JSX.Element => {
           Don't have an account yet? <Link to="/signup">Register </Link>
         </p>
         <p className={styles["forget-password"]}>
-          <a href="/forgot-password">Forget password?</a>
+          <a href="/forgot-password" style={{
+                position: 'relative',
+                bottom: '30px'
+                // marginRight: "5px",
+                // fontSize: "1rem",
+                // letterSpacing: "2px",
+              }}>Forget password?</a>
         </p>
       </div>
     </div>
