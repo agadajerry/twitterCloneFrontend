@@ -1,10 +1,12 @@
 import React from "react";
 import { UserContext } from "../../hooks/useContext";
-import { useContext } from "react"
+import { useContext } from "react";
 // import Tweetnav from "./TweetNav"
 
-const Tweet = (props:any) => {
-  const msg:any = useContext(UserContext)
+const Tweet = (props: any) => {
+  const { user, setUser }: any = useContext(UserContext);
+
+  // const user:any = useContext(UserContext)
 
   return (
     <div className="">
@@ -19,7 +21,9 @@ const Tweet = (props:any) => {
               />
             </div>
             <div className="col-6">
-              <h6 className="user-name-tweet col-12">{msg.user.firstName} {msg.user.lastName}</h6>
+              <h6 className="user-name-tweet col-12">
+                {user.user.firstName} {user.user.lastName}
+              </h6>
               <h6 className="user-name-date col-12">{new Date(props.createdAt).toDateString()}</h6>
             </div>
             <div className="col-sm-4"></div>
@@ -29,14 +33,14 @@ const Tweet = (props:any) => {
               fontSize: "1.5rem",
               color: "#000",
               margin: "15px 5px",
-              padding: "10px"
+              padding: "10px",
             }}
-          >{props.messageBody}.</p>
-{props.tweetImage ?         <img
-            className="card-img-top tweetimage"
-            src={props.tweetImage}
-            alt=""
-          />: null}
+          >
+            {props.messageBody}.
+          </p>
+          {props.tweetImage ? (
+            <img className="card-img-top tweetimage" src={props.tweetImage} alt="" />
+          ) : null}
           <div className="row">
             <div className="col-7"></div>
             {/* <div className="col-5">

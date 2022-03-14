@@ -11,10 +11,12 @@ import {AuthContext} from "../context/Auth.context";
 
 function Trending_Follow() {
   // const { followerTweet } = useContext(followingContext);
-  const {user} = useContext(AuthContext);
+  // const {user} = useContext(AuthContext);
 
-  const userToken: any = useContext(UserContext);
-  const token = userToken.token;
+  const { user, setUser }: any = useContext(UserContext);
+
+  // const user: any = useContext(UserContext);
+  const token = user.token;
 
   const [trends, setTrends] = useState<any>([]);
   const [follow, setFollow] = useState<any[]>([]);

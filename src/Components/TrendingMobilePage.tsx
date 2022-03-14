@@ -6,9 +6,10 @@ import { UserContext } from "../hooks/useContext"
 import { BASE_URL } from "../constants/contants";
 
 function TrendingMobilePage() {
+  const { user, setUser }: any = useContext(UserContext);
 
-  const userToken:any = useContext(UserContext)
-  const token = userToken.token
+  // const user:any = useContext(UserContext)
+  const token = user.token
 
   const [trends, setTrends] = useState<any>([]);
 
