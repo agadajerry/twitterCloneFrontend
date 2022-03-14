@@ -18,9 +18,10 @@ import { followingContext } from "./FollowingProvider";
 function TrendsController() {
   
   // const { followerTweet, followerCondition, isLoading,isScrolling } = useContext(followingContext);
+  const { user, setUser }: any = useContext(UserContext);
 
-  const userToken: any = useContext(UserContext);
-  const token = userToken.token;
+  // const user: any = useContext(UserContext);
+  const token = user.token;
   const params: any = useParams();
 
   const [trends, setTrends] = useState<any>([]);

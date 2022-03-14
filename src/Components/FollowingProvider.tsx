@@ -14,8 +14,9 @@ export interface iFollowing {
 export const followingContext = createContext<iFollowing>(null!);
 
 function FollowingProvider({ children }: { children: React.ReactNode }) {
+    const { user, setUser }: any = useContext(UserContext);
 
-  const userToken: any = useContext(UserContext);
+  // const userToken: any = useContext(UserContext);
   const pageNumber:number = 1;
 
   const [followerTweet, setFollowerTweet] = useState<any[]>([]);
@@ -29,7 +30,7 @@ console.log(page);
 
   const authorised = {
     headers: {
-      Authorization: "Bearer " + userToken.token,
+      Authorization: "Bearer " + user.token,
     },
   };
 

@@ -9,10 +9,11 @@ import styles from "../styles/Tweeting_style/TweetController.module.css";
 
 function CreateTweet() {
 
+  const { user, setUser }: any = useContext(UserContext);
 
   
-  const userToken:any = useContext(UserContext)
-  const token = userToken.token
+  // const userToken:any = useContext(UserContext)
+  const token = user.token
 
 
   // const url = `${BASE_URL}api/trends`

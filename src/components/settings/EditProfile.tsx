@@ -9,9 +9,13 @@ import Button from "../common/Button";
 import { BASE_URL } from "../../constants/contants";
 import "./scss/editProfile.scss";
 import Swal from "sweetalert2";
+import { LanguageContext } from "../../context/test.context";
+import { Windows } from "react-bootstrap-icons";
 
 const EditProfile = () => {
-  const msg: any = useContext(UserContext);
+  const { language, setLanguage } :any= useContext(LanguageContext);
+  const { user, setUser }: any = useContext(UserContext);
+  console.log(user.user, "contextdata");
 
   const { selectPhoto, image } = useSettings();
   const [formData, setFormData] = useState({
@@ -23,11 +27,11 @@ const EditProfile = () => {
 
   useEffect(() => {
     const getUserProfile = async () => {
-      const response = await fetch(`${BASE_URL}profile/${msg.user._id}`, {
+      const response = await fetch(`${BASE_URL}profile/${user.user._id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${msg.token}`,
+          Authorization: `Bearer ${user.token}`,
         },
       });
       let responseData = await response.json();
@@ -53,19 +57,15 @@ const EditProfile = () => {
   const saveImage = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await axios.put(
-        `${BASE_URL}profile/picture`,
-        image.formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${msg.token}`,
-          },
-        }
-      );
+      const response = await axios.put(`${BASE_URL}profile/picture`, image.formData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
 
       let data = response.data;
-      console.log(data,'');
+      console.log(data, "");
       Swal.fire({
         icon: "success",
         title: "Updated profile picture successfully",
@@ -89,7 +89,7 @@ const EditProfile = () => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${msg.token}`,
+          Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify({
           firstName: formData.firstName,
@@ -99,9 +99,10 @@ const EditProfile = () => {
       });
 
       let data = await response.json();
-      let newUser={status:msg.status,token:msg.token,user:data.profile}
-      localStorage.setItem('tweeter',JSON.stringify(newUser))
-      console.log(newUser, 'check submit response')
+      let newUser = { status: user.status, token: user.token, user: data.profile };
+      setUser(newUser)
+      localStorage.setItem("tweeter", JSON.stringify(newUser));
+      console.log(newUser, "check submit response");
       setFormData({ ...formData, ...data.profile });
       Swal.fire({
         icon: "success",
@@ -109,6 +110,9 @@ const EditProfile = () => {
         showConfirmButton: false,
         timer: 2500,
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
     } catch (error: any) {
       console.log(error.response.data);
       Swal.fire({
@@ -200,6 +204,9 @@ const EditProfile = () => {
           <Button className="btn-primary" onClick={handleSubmit}>
             Save
           </Button>
+
+          <br />
+          <button onClick={() => setLanguage("jp")}>Switch Language (Current: {language})</button>
         </div>
       </div>
     </div>
