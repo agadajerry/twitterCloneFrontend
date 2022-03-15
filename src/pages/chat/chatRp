@@ -1,0 +1,85 @@
+//  <div className={classes.nav_right}>
+//           {currentMessage ? (
+//             <>
+//               {currentMessage.map((item) => (
+                
+//               <><div className={classes.chat_head}>
+//                   <div className={classes.heading}>
+//                     <figure className={classes.chat_avatar}>
+//                       <img src="" alt="" className={classes.chat_img} />
+//                     </figure>
+//                     <p className={classes.chat_name}>Blessing Abel</p>
+//                     <HiOutlinePhoneMissedCall className={classes.chat_arrow} />
+//                   </div>
+//                 </div>
+//                 <div className={classes.chat_body}>
+
+//                     <div className={classes.chat_boxA}>
+//                       <div
+//                         className={`${classes.chat_caseA} ${classes.chat_case2A}`}
+//                       >
+//                         <p className={classes.chat_messageA}>
+//                           {item.text}
+//                         </p>
+//                         <span className={classes.chat_timeA}>{item.createdAt}</span>
+//                       </div>
+//                     </div>
+
+//                     {/* <div className={classes.chat_boxB}>
+//                       <div
+//                         className={`${classes.chat_caseB} ${classes.chat_case2B}`}
+//                       >
+//                         <p className={classes.chat_messageB}>
+//                           Hello! Hope you are doing great!
+//                         </p>
+//                         <span className={classes.chat_timeB}>12:30pm</span>
+//                       </div>
+//                     </div> */}
+
+//                   </div>
+//               <div className={classes.chat_form}>
+//                 <div className={classes.form_body}>
+//                   <form className={classes.form_case}>
+//                     <textarea
+//                       name=""
+//                       id=""
+//                       placeholder="Type a message here"
+//                       className={classes.form_text}
+//                     ></textarea>
+//                   </form>
+//                   <MdInsertEmoticon className={classes.form_emoji} />
+//                   <AiOutlineSend className={classes.form_send} />
+//                 </div>
+//               </div>
+//               </>
+//               ))}
+//             </>
+//           ) : (
+//             <span className={classes.chat_background}>
+//               <p className={classes.chat_shadow}>Start a conversation</p>
+//               <FaTwitter className={classes.chat_shadowicon} />
+//             </span>
+//           )}
+//         </div>
+//       </div>
+
+
+      // {currentUser && !currentUser.profilePic && (
+      //   <div className={classes.chat_img1}>
+      //     {currentUser.firstName[0] + " " + currentUser.lastName[0]}
+      //   </div>
+      // )}
+      // {currentUser && (
+      //   <figure className={classes.chat_avatar}>
+      //     <img
+      //       src={currentUser.profilePic}
+      //       alt=""
+      //       className={classes.chat_img}
+      //     />
+      //   </figure>
+      // )}
+      // {currentUser && (
+      //   <p className={classes.chat_name}>
+      //     {currentUser?.firstName + " " + currentUser?.lastName}
+      //   </p>
+      // )}

@@ -14,11 +14,14 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "@types/emoji-mart": "^3.0.9",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.7.13",
+    "@types/uuid": "^8.3.4",
     "autoprefixer": "^10.4.2",
     "axios": "^0.26.0",
     "bootstrap": "^5.1.3",
+    "emoji-mart": "^3.0.1",
     "font-awesome": "^4.7.0",
     "framer-motion": "^6.2.6",
     "init": "^0.1.2",
@@ -29,6 +32,7 @@
     "react-bootstrap": "^2.1.2",
     "react-bootstrap-icons": "^1.7.2",
     "react-dom": "^17.0.2",
+    "react-google-login": "^5.2.2",
     "react-icons": "^4.3.1",
     "react-loader-spinner": "^5.1.4",
     "react-router-dom": "^6.2.1",
@@ -36,10 +40,12 @@
     "react-spinners": "^0.11.0",
     "reactstrap": "^9.0.1",
     "sass": "^1.49.7",
+    "socket.io-client": "^4.4.1",
     "sweetalert2": "^11.4.4",
     "tailwind": "^4.0.0",
     "tailwindcss": "^3.0.22",
     "typescript": "^4.4.2",
+    "uuid": "^8.3.2",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
@@ -66,7 +72,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:3000/",
+  "proxy": "https://tweetaclone.herokuapp.com/",
   "devDependencies": {
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11"

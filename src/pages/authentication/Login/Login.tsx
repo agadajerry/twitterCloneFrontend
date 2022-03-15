@@ -10,14 +10,40 @@ import { IoLogoTwitter, IoLogoGithub, IoMdPartlySunny } from "react-icons/io";
 import { BsMoonStarsFill } from "react-icons/bs";
 import { BASE_URL, HTTPCODE } from "../../../constants/contants";
 import { storeUser } from "../../../hooks/useLogin";
-import { notify } from "../../../hooks/useNotification";
 import { BeatLoader } from "react-spinners";
+import axios from "axios";
+import { FcGoogle } from "react-icons/fc";
+import { Link, Route, Routes } from "react-router-dom";
 
 import Swal from "sweetalert2";
 
 const url: string = `${BASE_URL}users/login`;
+const url2: string = `${BASE_URL}auth/google`;
+// const local = "http://localhost:3000/auth/google";
 
 const Login = (): JSX.Element => {
+  const google = () => {
+    window.open(url2, "_self");
+    console.log(user);
+  };
+
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}auth/login/success`);
+        console.log(res);
+        const response = res.data;
+        setUser(response);
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getUser();
+  }, []);
+
+  console.log(user);
   const [isLight, setIsLight] = useState(true);
   const [form, setForm] = useState<User>({ email: "", password: "" });
   const [showError, setShowError] = useState<boolean>(false);
@@ -70,7 +96,7 @@ const Login = (): JSX.Element => {
           timer: 1500,
         });
         setTimeout(() => {
-          window.location.reload();
+          window.location.href='/';
         }, 2000);
       }
       if (HTTPCODE.bad.includes(response.status)) {
@@ -84,7 +110,7 @@ const Login = (): JSX.Element => {
         });
       }
       console.log(response);
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
     }
   };
@@ -152,17 +178,40 @@ const Login = (): JSX.Element => {
         </div>
         <p>or continue with these social profile</p>
         <div className={styles["social-logins"]}>
-          <div className={styles["social-circle"]}>
-            <div>
-              <FaGoogle />
-            </div>
-          </div>
+          <button
+            onClick={google}
+            style={{
+              background: "transparent",
+              border: "1px solid #444",
+              color: "#444",
+              marginTop: "5px",
+              fontSize: "0.8rem",
+              textTransform: "capitalize",
+              padding: '3px',
+              width: '230px',
+              height: '50px'
+            }}
+          >
+            <FcGoogle
+              style={{
+                marginRight: "5px",
+                fontSize: "1rem",
+                letterSpacing: "2px",
+              }}
+            /> Login With Google
+          </button>
         </div>
         <p>
-          Don't have an account yet? <a href="/signup">Register </a>
+          Don't have an account yet? <Link to="/signup">Register </Link>
         </p>
         <p className={styles["forget-password"]}>
-          <a href="/forgot-password">Forget password?</a>
+          <a href="/forgot-password" style={{
+                position: 'relative',
+                bottom: '30px'
+                // marginRight: "5px",
+                // fontSize: "1rem",
+                // letterSpacing: "2px",
+              }}>Forget password?</a>
         </p>
       </div>
     </div>

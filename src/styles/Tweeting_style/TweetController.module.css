@@ -364,6 +364,12 @@ textarea:focus {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+          /* align-items: center; */
+}
+
+.who-to-follow .follow-btn{
+  position: relative;
+  top: -12px;
 }
 
 .who-to-follow .suggest-content:hover {
@@ -469,6 +475,7 @@ textarea:focus {
         -ms-flex-align: center;
             align-items: center;
     width: auto;
+    padding-bottom: 120px;
   }
   .tweet-heading {
     margin: 0px auto;

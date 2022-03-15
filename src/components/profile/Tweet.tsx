@@ -1,7 +1,23 @@
 import React from "react";
+import { UserContext } from "../../hooks/useContext";
+import { useContext } from "react";
+import { AVATAR } from "../../constants/contants";
+import { addDefaultSrc } from "../../hooks/useImageChecker";
 // import Tweetnav from "./TweetNav"
 
-const Tweet = () => {
+interface ITweetprofile {
+  firstName: string;
+  lastName: string;
+  createdAt: string;
+  messageBody: string;
+  tweetImage: string;
+}
+
+const Tweet = (props: ITweetprofile) => {
+  const { user, setUser }: any = useContext(UserContext);
+
+  // const user:any = useContext(UserContext)
+
   return (
     <div className="">
       <div className="card">
@@ -15,26 +31,40 @@ const Tweet = () => {
               />
             </div>
             <div className="col-6">
-              <h6 className="user-name-tweet col-12">Peyton Lyons</h6>
-              <h6 className="user-name-date col-12">24 August at 20:43 </h6>
+              <h6 className="user-name-tweet col-12">
+                {props.firstName} {props.lastName}
+              </h6>
+              <h6 className="user-name-date col-12">{new Date(props.createdAt).toDateString()}</h6>
             </div>
             <div className="col-sm-4"></div>
           </div>
-          <p>Traveling – it leaves you speechless, then turns you into a storyteller.</p>
-          <img
-            className="card-img-top tweetimage"
-            src="https://res.cloudinary.com/dveib1w9c/image/upload/v1645018165/tweeter/76776d7ccd43c1602fbc6aa3a6ee5ac5_ekahcu.png"
-            alt=""
-          />
+          <p
+            style={{
+              fontSize: "1.5rem",
+              color: "#000",
+              margin: "15px 5px",
+              padding: "10px",
+            }}
+          >
+            {props.messageBody}.
+          </p>
+          {props.tweetImage ? (
+            <img
+              className="card-img-top tweetimage"
+              onError={addDefaultSrc}
+              src={props.tweetImage}
+              alt=""
+            />
+          ) : null}
           <div className="row">
             <div className="col-7"></div>
-            <div className="col-5">
+            {/* <div className="col-5">
               <div className="row">
                 <div className="col-sm-4 tweet-under">449 Comments</div>
                 <div className="col-sm-4 tweet-under">59k Retweets</div>
                 <div className="col-sm-4 tweet-under">234 Saved</div>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="row text-center">
             <div className="col-sm-3">

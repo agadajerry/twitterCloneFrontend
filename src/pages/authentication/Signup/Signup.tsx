@@ -12,6 +12,8 @@ import { BASE_URL } from "../../../constants/contants";
 import { notify } from "../../../hooks/useNotification";
 import Swal from "sweetalert2";
 import { BeatLoader } from "react-spinners";
+import { Link } from "react-router-dom"
+import { titleCase } from "../../../hooks/useTitleCase";
 
 
 const url: string = `${BASE_URL}users/signup`;
@@ -84,15 +86,16 @@ const Signup = (): JSX.Element => {
       ) {
         const data = await response.json();
         console.log(data);
+        const titleResponse=titleCase(data.message);
         Swal.fire({
           icon: "warning",
-          title: "Failed to register account",
+          title: `${titleResponse}`,
           showConfirmButton: false,
-          timer: 2500,
+          timer: 5500,
         });
             setloadingMsg("");
 
-        notify("warning", "Registration failed", false);
+        // notify("error", "Registration failed", false);
       }
 
       console.log(response);
@@ -199,34 +202,8 @@ const Signup = (): JSX.Element => {
           {loadingMsg !=="loading" && 'Sign up'}
         </button>
       </div>
-      <p>or continue with these social profile</p>
-      <div className={styles["social-logins"]}>
-        <div className={styles["social-circle"]}>
-          <div>
-            <FaGoogle />
-          </div>
-        </div>
-        <div className={styles["social-circle"]}>
-          <div>
-            <GrFacebook />
-          </div>
-        </div>
-        <div className={styles["social-circle"]}>
-          <div>
-            <IoLogoTwitter />
-          </div>
-        </div>
-        <div className={styles["social-circle"]}>
-          <div>
-            <IoLogoGithub />
-          </div>
-        </div>
-      </div>
       <p>
-        Already have Account? <a href="/login">login </a>
-      </p>
-      <p className={styles["forogt-password"]}>
-        <a href="/forgot-password">Forgot Password ?</a>
+        Already have account? <Link to="/login">Login </Link>
       </p>
     </div>
   );
